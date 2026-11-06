@@ -1,0 +1,621 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DroneDocs · Production RAG · Rakesh Burla</title>
+<meta name="description" content="DroneDocs · Production RAG — AI engineering portfolio project by Rakesh Burla">
+<style>
+:root{--bg:#0b0f17;--card:#121826;--fg:#e6e9ef;--mut:#9aa4b2;--acc:#5eead4;--line:#243044}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,Segoe UI,Inter,Roboto,sans-serif}
+header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#0f1625,#0b0f17)}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:22px 0;flex-wrap:wrap}
+.brand{font-weight:700;font-size:1.15rem}.brand small{display:block;color:var(--mut);font-weight:400;font-size:.85rem}
+.btn{display:inline-block;padding:9px 16px;border:1px solid var(--acc);color:var(--acc);border-radius:8px;text-decoration:none;font-weight:600}
+.btn:hover{background:var(--acc);color:#04201b}
+main{padding:28px 0 60px}h1,h2,h3{line-height:1.25}h1{font-size:2rem}h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+a{color:var(--acc)}code{background:#1b2333;padding:.1em .35em;border-radius:5px;font-size:.92em}
+pre{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:10px;overflow:auto}pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;margin:1em 0}th,td{border:1px solid var(--line);padding:7px 10px;text-align:left}th{background:var(--card)}
+img{max-width:100%;border-radius:10px;background:#fff}blockquote{border-left:3px solid var(--acc);margin:0;padding:.2em 1em;color:var(--mut)}
+pre.mermaid{background:#fff;color:#000}
+footer{border-top:1px solid var(--line);color:var(--mut);padding:20px 0;font-size:.9rem}
+</style></head><body>
+<header><div class="wrap top"><div class="brand">DroneDocs · Production RAG<small>AI engineering portfolio · Rakesh Burla</small></div>
+<div><a class="btn" href="https://github.com/burlarakesh1458-sys/dronedocs-production-rag">View code on GitHub</a></div></div></header>
+<main class="wrap"><h1
+id="dronedocs-rag-a-cited-question-answering-system-for-drone-rules-and-autopilot-docs">DroneDocs
+RAG: a cited question-answering system for drone rules and autopilot
+docs</h1>
+<p>DroneDocs answers questions about <strong>Indian drone
+regulations</strong> (Drone Rules 2021 and the 2022/2023 amendments) and
+the <strong>ArduPilot / PX4 autopilot documentation</strong>. Every
+answer cites the exact chunk, PDF page or doc section it came from. When
+the retrieved evidence does not support an answer, the system
+<strong>declines</strong> instead of guessing.</p>
+<p>I built it to see what separates a RAG demo from a RAG system you
+could actually ship: hybrid retrieval, a cross-encoder reranker,
+enforced citations, prompts kept in versioned files, a hand-verified
+golden set, and a CI quality gate that fails the build when answer
+quality drops.</p>
+<blockquote>
+<p>All numbers below were measured in this repo. Raw reports:
+<code>reports/latest.json</code> (eval) and
+<code>reports/retrieval_ablation.json</code> (retrieval). Charts:
+<code>docs/</code>.</p>
+</blockquote>
+<h2 id="the-problem">The problem</h2>
+<p>Drone pilots in India have to work across a 2021 gazette notification
+(bilingual Hindi/English PDFs), two amendments, a PIB explainer, and the
+ArduPilot and PX4 docs for the autopilot they actually fly. The
+questions are exact ("What is the default <code>RTL_ALT_M</code>?",
+"What fee is charged for a remote pilot certificate?"), and a plausible
+but wrong answer is worse than none. So the system has to:</p>
+<ol type="1">
+<li>find the right paragraph, even when the user types an exact
+parameter name (<code>FS_THR_ENABLE</code>),</li>
+<li>answer only from that paragraph and say where it came from, and</li>
+<li>decline when the corpus doesn't hold the answer ("What is the max
+speed of a DJI Mini 4 Pro?").</li>
+</ol>
+<h2 id="architecture">Architecture</h2>
+<pre class="mermaid">flowchart LR
+    subgraph Ingest[&quot;Ingest (offline)&quot;]
+        A[PDF / HTML / Markdown&lt;br/&gt;33 docs] --&gt; B[Loaders&lt;br/&gt;Hindi lines, table rules,&lt;br/&gt;Gazette headers stripped]
+        B --&gt; C[Token chunker&lt;br/&gt;550 tok / 100 overlap&lt;br/&gt;156 chunks]
+        C --&gt; D[(Chroma&lt;br/&gt;bge-small-en-v1.5)]
+        C --&gt; E[(BM25 index)]
+    end
+    subgraph Serve[&quot;Query path: LangGraph state machine&quot;]
+        Q[Question] --&gt; R[retrieve&lt;br/&gt;vector top-20 + BM25 top-20&lt;br/&gt;reciprocal rank fusion]
+        R --&gt; RR[rerank&lt;br/&gt;cross-encoder MiniLM-L6&lt;br/&gt;12 candidates -&gt; top 4]
+        RR --&gt; G{evidence gate&lt;br/&gt;best score &gt;= -4.0?}
+        G -- no --&gt; X[decline&lt;br/&gt;no LLM call]
+        G -- yes --&gt; L[generate&lt;br/&gt;versioned prompt&lt;br/&gt;OpenAI-compatible LLM]
+        L --&gt; V{validate citations&lt;br/&gt;ids exist in context?&lt;br/&gt;sentences cited?}
+        V -- no --&gt; X2[decline&lt;br/&gt;refused_uncited]
+        V -- yes --&gt; OUT[answer + citations&lt;br/&gt;page / section locators]
+    end
+    D -.-&gt; R
+    E -.-&gt; R</pre>
+<p>Every graph node reports to optional observers
+(<code>on_stage</code>), so tracing can be added without this package
+depending on a tracing vendor. The observability layer in the sibling
+repo (<code>03-rag-observability</code>) is built on exactly that
+hook.</p>
+<h2 id="features">Features</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>What's implemented</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ingestion</td>
+<td>PDF (pypdf, page-level locators), ArduPilot HTML (section
+breadcrumbs), PX4 Markdown (heading breadcrumbs). Hindi lines, markdown
+table rules and repeated Gazette headers are dropped before
+chunking.</td>
+</tr>
+<tr class="even">
+<td>Chunking</td>
+<td><code>cl100k_base</code> token windows, 550 tokens with 100 overlap
+(the 500-800 band), 40-token minimum, content hash per chunk.</td>
+</tr>
+<tr class="odd">
+<td>Retrieval</td>
+<td>Hybrid: Chroma (cosine, <code>BAAI/bge-small-en-v1.5</code> with
+query instruction) + BM25 (custom tokenizer that keeps
+<code>RTL_ALT_M</code>, <code>10.5</code>), merged with Reciprocal Rank
+Fusion (k=60).</td>
+</tr>
+<tr class="even">
+<td>Reranking</td>
+<td><code>cross-encoder/ms-marco-MiniLM-L-6-v2</code> over the 12 best
+fused candidates (256 tokens per pair), top 4 go in the prompt. Cohere
+<code>rerank-english-v3.0</code> is a config switch.</td>
+</tr>
+<tr class="odd">
+<td>Citation enforcement</td>
+<td>Evidence gate declines before the LLM is called; validator rejects
+invented chunk ids and answers with too many uncited sentences; invalid
+ids are stripped.</td>
+</tr>
+<tr class="even">
+<td>Prompts as config</td>
+<td><code>configs/prompts/answer_v1.yaml</code>
+(<code>answer-v1.2</code>) and <code>judge_v1.yaml</code>
+(<code>judge-v1.1</code>) carry a version string that is written into
+every result and report.</td>
+</tr>
+<tr class="odd">
+<td>Serving</td>
+<td>FastAPI (<code>/ask</code>, <code>/ingest</code>,
+<code>/health</code>, built-in HTML UI at <code>/</code>), CLI
+(<code>dronedocs ask</code>), Streamlit UI, Dockerfile + compose.</td>
+</tr>
+<tr class="even">
+<td>LLM client</td>
+<td>Any OpenAI-compatible endpoint (Groq by default, OpenAI, vLLM,
+Ollama). Backs off on 429/5xx and honours <code>retry-after</code>.
+Stops fast when the daily quota is gone. Records token usage.</td>
+</tr>
+<tr class="odd">
+<td>Evaluation</td>
+<td>60-item golden set (52 answerable, 8 unanswerable) with quoted
+evidence checked by <code>scripts/verify_golden.py</code>. Metrics:
+faithfulness and answer relevancy (LLM judge, a different model family
+from the generator), context precision/recall, citation
+accuracy/validity, refusal correctness, MRR, per-stage p50/p95 latency.
+Optional Ragas cross-check.</td>
+</tr>
+<tr class="even">
+<td>CI</td>
+<td>GitHub Actions: ruff + golden-set verification + offline unit tests
+on every PR; then the golden eval, which fails the build below the
+thresholds in <code>configs/settings.yaml</code> and posts a metrics
+table to the job summary.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quickstart">Quickstart</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv .venv <span class="kw">&amp;&amp;</span> <span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install-dev                      <span class="co"># CPU torch + deps</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env                  <span class="co"># set LLM_API_KEY (Groq key works as-is)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ingest                           <span class="co"># build Chroma + BM25 index from data/raw (~4 min on 2 CPUs)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> ask Q=<span class="st">&quot;What is the maximum all-up weight of a nano drone?&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> serve                            <span class="co"># http://localhost:8000  (HTML UI + /docs)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> test                             <span class="co"># offline unit tests, no network / no model downloads</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> eval                             <span class="co"># full golden eval, exits 1 below thresholds</span></span></code></pre></div>
+<p>Example (real output from this repo):</p>
+<pre><code>$ dronedocs ask &quot;What is the maximum all-up weight of a nano unmanned aircraft system under the Drone Rules 2021?&quot;
+The maximum all-up weight of a nano unmanned aircraft system is **250 grams or less**[drone_rules_2021.pdf#c005].
+  [drone_rules_2021.pdf#c005] drone_rules_2021.pdf - pages 27-28</code></pre>
+<p>Fully offline: point <code>LLM_BASE_URL</code> at Ollama
+(<code>http://localhost:11434/v1</code>) and set
+<code>DRONEDOCS__LLM__MODEL</code> /
+<code>DRONEDOCS__JUDGE__MODEL</code>.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Everything lives in <code>configs/settings.yaml</code>, and any key
+can be overridden with an env var
+<code>DRONEDOCS__&lt;SECTION&gt;__&lt;KEY&gt;</code>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>llm.model</code></td>
+<td><code>openai/gpt-oss-20b</code></td>
+<td>generator (Groq), <code>reasoning_effort: low</code></td>
+</tr>
+<tr class="even">
+<td><code>judge.model</code></td>
+<td><code>qwen/qwen3.8-27b</code></td>
+<td>judge from a different model family, separate rate-limit bucket</td>
+</tr>
+<tr class="odd">
+<td><code>chunking.chunk_tokens / overlap_tokens</code></td>
+<td>550 / 100</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>retrieval.vector_k / bm25_k / rrf_k</code></td>
+<td>20 / 20 / 60</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>rerank.candidates / max_length / top_n</code></td>
+<td>12 / 256 / 4</td>
+<td>CPU cost scales with candidates x length</td>
+</tr>
+<tr class="even">
+<td><code>guardrails.min_rerank_score</code></td>
+<td>-4.0</td>
+<td>evidence gate</td>
+</tr>
+<tr class="odd">
+<td><code>eval.thresholds</code></td>
+<td>faithfulness 0.80, answer_relevancy 0.75, context_recall 0.70,
+context_precision 0.55, citation_accuracy 0.90, refusal_correctness
+0.80</td>
+<td>CI gate</td>
+</tr>
+</tbody>
+</table>
+<h2 id="results">Results</h2>
+<h3 id="golden-set-evaluation-reportslatestjson">Golden-set evaluation
+(<code>reports/latest.json</code>)</h3>
+<p>Generator <code>openai/gpt-oss-20b</code>, judge
+<code>qwen/qwen3.8-27b</code>, prompt <code>answer-v1.2</code>, judge
+prompt <code>judge-v1.1</code>. <strong>38 of 60 items scored</strong>
+(34 answerable + 4 unanswerable). The other 22 hit the Groq free-tier
+daily token cap and are reported as <em>not evaluated</em> (see
+Limitations).</p>
+<p><img src="docs/eval_metrics.png" alt="eval" /></p>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+<th>CI threshold</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Faithfulness (claims supported by cited chunks, LLM judge)</td>
+<td><strong>0.944</strong></td>
+<td>0.80</td>
+<td>pass</td>
+</tr>
+<tr class="even">
+<td>Answer relevancy (vs. reference answer, LLM judge)</td>
+<td>0.706</td>
+<td>0.75</td>
+<td><strong>fail</strong></td>
+</tr>
+<tr class="odd">
+<td>Context recall (gold evidence in the 4 prompt chunks)</td>
+<td>0.882</td>
+<td>0.70</td>
+<td>pass</td>
+</tr>
+<tr class="even">
+<td>Context precision (average precision of the 4 prompt chunks)</td>
+<td>0.704</td>
+<td>0.55</td>
+<td>pass</td>
+</tr>
+<tr class="odd">
+<td>Citation accuracy (answer cites a gold-evidence chunk)</td>
+<td>0.833</td>
+<td>0.90</td>
+<td><strong>fail</strong></td>
+</tr>
+<tr class="even">
+<td>Citation validity (cited ids exist in the context)</td>
+<td><strong>1.000</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Refusal correctness (answer vs. decline, all items)</td>
+<td>0.895</td>
+<td>0.80</td>
+<td>pass</td>
+</tr>
+<tr class="even">
+<td>Answer rate on answerable questions</td>
+<td>0.882 (30/34)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Decline rate on unanswerable questions</td>
+<td><strong>1.000</strong> (4/4, all by the evidence gate with 0 LLM
+tokens)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Fused candidate recall@20</td>
+<td>1.000</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MRR of the gold chunk within the 4 prompt chunks</td>
+<td>0.716</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The gate fails, and here is why.</strong> I read every miss
+in <code>reports/latest.json</code>:</p>
+<ul>
+<li><em>Answer relevancy</em> misses are mostly correct but
+<strong>incomplete</strong> answers. 8 items scored 0.5 because the
+answer left out a qualifier from the reference (e.g. "12 km" without
+"reduced from 45 km"). Two scored 0: dr-08 was unsupported (Class 10
+qualification not in the cited chunk), and dr-20 contradicted the
+reference (armed-forces exemption).</li>
+<li><em>Citation accuracy</em> misses (5 of 30 answers): in 4 of them
+the judge found every claim supported, but the cited chunk was not the
+verified gold location. Three cited the PIB backgrounder instead of the
+gazette rule, and one cited a neighbouring gazette chunk. The fifth
+(dr-08) is the unsupported answer above.</li>
+<li>4 false declines out of 34: 1 by the evidence gate, 2 by the model's
+own sentinel, 1 rejected as uncited.</li>
+</ul>
+<p>Token use for the 38 items: 76,867 prompt + 3,070 completion tokens
+(generator, mean 2,329 prompt tokens per call) and 31,420 judge
+tokens.</p>
+<h3
+id="retrieval-ablation-reportsretrieval_ablationjson-all-52-answerable-items-no-llm">Retrieval
+ablation (<code>reports/retrieval_ablation.json</code>, all 52
+answerable items, no LLM)</h3>
+<p>Final config: k = 4 chunks in the prompt, 20+20 candidates fused,
+cross-encoder over 12 candidates x 256 tokens.</p>
+<p><img src="docs/retrieval_ablation.png" alt="ablation" /></p>
+<table>
+<thead>
+<tr class="header">
+<th>Retriever</th>
+<th>Hit@4</th>
+<th>MRR@4</th>
+<th>Recall@20</th>
+<th>p50 latency</th>
+<th>p95 latency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vector (bge-small)</td>
+<td><strong>0.942</strong></td>
+<td>0.745</td>
+<td>1.000</td>
+<td>127 ms</td>
+<td>220 ms</td>
+</tr>
+<tr class="even">
+<td>BM25</td>
+<td>0.904</td>
+<td>0.766</td>
+<td>1.000</td>
+<td>0.5 ms</td>
+<td>1.8 ms</td>
+</tr>
+<tr class="odd">
+<td>Hybrid (RRF)</td>
+<td>0.923</td>
+<td><strong>0.811</strong></td>
+<td>1.000</td>
+<td>131 ms</td>
+<td>776 ms</td>
+</tr>
+<tr class="even">
+<td>Hybrid + cross-encoder rerank</td>
+<td>0.885</td>
+<td>0.728</td>
+<td>1.000</td>
+<td>2,194 ms</td>
+<td>4,128 ms</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Finding: the reranker does not pay for itself on this
+corpus.</strong> Hybrid RRF gives the best ranking (MRR 0.811, +0.065
+over vector-only). The general-domain MS MARCO MiniLM cross-encoder
+<em>lowers</em> MRR to 0.728 and adds ~2 s on CPU. An earlier run with a
+heavier setting (20 candidates x 512 tokens, k=5, on an earlier index
+build; <code>reports/retrieval_ablation_top5_ce20x512.json</code>)
+showed the same direction (MRR 0.760 hybrid vs 0.745 reranked) at ~9.5 s
+per query. I kept the reranker in the serving path because its score is
+the calibrated signal behind the evidence gate
+(<code>min_rerank_score</code>), which declined 4 of 4 unanswerable
+questions without an LLM call. Replacing it with a domain-tuned
+reranker, or gating on fused scores instead, is the top item in Future
+work.</p>
+<h3 id="ragas-cross-check">Ragas cross-check</h3>
+<p><code>scripts/ragas_crosscheck.py</code> scored the first 3 answered
+items (dr-01..dr-03) with Ragas 0.4.3 (<code>qwen/qwen3.8-27b</code> as
+the Ragas LLM; <code>reports/ragas_crosscheck.json</code>):</p>
+<table>
+<thead>
+<tr class="header">
+<th>Items</th>
+<th>Ragas faithfulness</th>
+<th>Ragas context recall</th>
+<th>Built-in judge faithfulness (same items)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>1.00 (3/3 scored)</td>
+<td>1.00 (3/3 scored)</td>
+<td>1.00</td>
+</tr>
+</tbody>
+</table>
+<p>The two judges agree, but this is a sanity check on 3 easy items, not
+a validation. Ragas makes several LLM calls per metric per item (~9k
+tokens/item), which the free tier can't afford across the full set, so
+the single-call built-in judge stays the CI gate. An earlier attempt
+with <code>gpt-oss-20b</code> as the Ragas LLM scored <strong>0 of
+3</strong> items (every metric came back NaN), so the Ragas LLM is now
+configured separately from the generator.</p>
+<h3 id="latency-golden-set-run">Latency (golden-set run)</h3>
+<p><img src="docs/latency.png" alt="latency" /></p>
+<table>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>p50</th>
+<th>p95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>retrieve (hybrid, CPU)</td>
+<td>212 ms</td>
+<td>1,670 ms</td>
+</tr>
+<tr class="even">
+<td>rerank (cross-encoder, CPU)</td>
+<td>1,722 ms</td>
+<td>2,578 ms</td>
+</tr>
+<tr class="odd">
+<td>generate (Groq, incl. rate-limit backoff)</td>
+<td>14,282 ms</td>
+<td>17,585 ms</td>
+</tr>
+<tr class="even">
+<td>total</td>
+<td>15,867 ms</td>
+<td>19,100 ms</td>
+</tr>
+</tbody>
+</table>
+<p>26 of 33 generation calls hit at least one HTTP 429 (free tier: 8k
+tokens/min) and waited out the backoff. The 7 calls with no retry took
+<strong>0.45-1.63 s</strong> (p50 0.60 s), so on a paid tier the
+end-to-end p50 would be retrieval + rerank + ~0.6 s.</p>
+<h2 id="design-decisions-and-trade-offs">Design decisions and
+trade-offs</h2>
+<ul>
+<li><strong>Hybrid retrieval, measured, not assumed.</strong> BM25 alone
+misses paraphrases and vector search alone ranks exact parameter names
+poorly. RRF fusion gave the best MRR in the ablation. Every retriever
+finds the evidence somewhere in its top 20, so the real difference is
+ordering.</li>
+<li><strong>The reranker stays for the gate, not for ranking.</strong>
+The ablation shows the general-domain cross-encoder hurts ranking here.
+I kept it (cut from 20 x 512 to 12 x 256 tokens, ~9.5 s to ~2.2 s p50 on
+2 CPUs) because its score drives the evidence gate. That is a trade-off
+I'd revisit first.</li>
+<li><strong>Two refusal layers.</strong> The evidence gate refuses
+<em>before</em> spending tokens when the best reranked chunk is weak
+(all 4 gate refusals on unanswerable questions cost 0 LLM tokens). The
+citation validator catches answers that are fluent but uncited.</li>
+<li><strong>Judge from a different model family.</strong> gpt-oss
+generates and Qwen judges, so the model isn't grading its own answers,
+and each model draws on its own free-tier quota.</li>
+<li><strong>Deterministic metrics wherever possible.</strong> Context
+recall/precision, citation accuracy and refusal correctness are computed
+against hand-verified evidence quotes, not by an LLM. Only faithfulness
+and answer relevancy use the judge.</li>
+<li><strong>Prompts are versioned artifacts.</strong> The prompt version
+is in every API response and eval report, so a quality change can be
+traced to a prompt change (the observability repo shows a real
+case).</li>
+</ul>
+<h2 id="what-went-wrong-and-how-i-fixed-it">What went wrong and how I
+fixed it</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Problem</th>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>gpt-oss writes citations in CJK brackets <code>【chunk】</code></td>
+<td>Valid answers rejected as uncited</td>
+<td><code>normalize_citations()</code> maps <code>【】</code> to
+<code>[]</code> before validation; <code>raw_answer</code> is kept for
+audit</td>
+</tr>
+<tr class="even">
+<td>PIB backgrounder restates Drone Rules facts</td>
+<td>Correct answers citing the PIB chunk were scored as wrong
+evidence</td>
+<td>Golden items accept verified alternate evidence
+(<code>alt_evidence</code>), each also checked by
+<code>verify_golden.py</code></td>
+</tr>
+<tr class="odd">
+<td>Markdown table rules and Gazette page headers in chunks</td>
+<td>Junk tokens in chunks, poor BM25 matches</td>
+<td>Stripped in <code>clean_text()</code>; covered by
+<code>test_loaders.py</code></td>
+</tr>
+<tr class="even">
+<td>Bilingual Gazette PDFs</td>
+<td>Hindi text took up half of each chunk</td>
+<td>Latin-script lines are kept (<code>drop_non_latin_lines</code>);
+citations point to the English page</td>
+</tr>
+<tr class="odd">
+<td>Cross-encoder at 20 x 512</td>
+<td>~9.5 s rerank per query on 2 CPUs</td>
+<td>12 candidates x 256 tokens</td>
+</tr>
+<tr class="even">
+<td>OOM kills on a shared 7.8 GB box</td>
+<td>Eval runs died halfway</td>
+<td>Per-item JSONL checkpoint +
+<code>dronedocs eval --resume</code></td>
+</tr>
+<tr class="odd">
+<td>Groq free-tier daily token cap (200k/model/day)</td>
+<td>22 eval items returned HTTP 429 TPD</td>
+<td>Quota errors are now reported as <strong>not evaluated</strong> (not
+scored as refusals); <code>--report-only</code> rebuilds the report from
+the checkpoint; the judge's quota errors are handled the same way</td>
+</tr>
+<tr class="even">
+<td>ragas 0.4.3 imports a module removed in langchain-community 0.4</td>
+<td><code>ImportError</code> on import</td>
+<td>Inert stub for <code>langchain_community.chat_models.vertexai</code>
+before importing ragas</td>
+</tr>
+</tbody>
+</table>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li><strong>The golden-set eval is partial: 38 of 60 items.</strong>
+Groq's free tier caps each model at ~200k tokens per rolling day. The
+generator's quota ran out after 38 items, and the remaining 22
+(<code>ap-07..ap-11</code>, all 13 <code>px-*</code> PX4 items,
+<code>na-01/04/06/07</code>) are recorded as <em>not evaluated</em>, not
+as failures. So the PX4 domain is not represented in the answer-quality
+numbers. It is covered by the retrieval ablation, which runs all 52
+answerable items locally. To finish:
+<code>dronedocs eval --resume</code> once the quota resets.</li>
+<li><strong>Latency is dominated by the free tier.</strong> The free
+tier also allows only 8k tokens/minute, so most generation calls waited
+on HTTP 429 backoff. The p50/p95 above include that wait. Calls with no
+retry took 0.45-1.6 s.</li>
+<li><strong>The quality gate currently fails</strong> on answer
+relevancy and citation accuracy (see the miss analysis). The thresholds
+stay where they are on purpose: lowering them to get a green build would
+defeat the gate.</li>
+<li>60 golden items over 33 documents is a small set; a 1-item change
+moves a metric by 2-3 points.</li>
+<li>The LLM judge (Qwen) has its own biases. Ragas was run only as a
+small cross-check (see above).</li>
+<li>Retrieval models run on CPU. A GPU or a hosted reranker (Cohere is
+wired in) would cut rerank latency.</li>
+</ul>
+<h2 id="future-work">Future work</h2>
+<ul>
+<li>Finish the remaining 22 items and grow the golden set to 150+ with
+more multi-hop questions.</li>
+<li>Query rewriting for vague questions ("what's the penalty if I break
+the rules?") and a "partial answer + what's missing" mode instead of a
+hard decline.</li>
+<li>Answer-completeness prompting: most relevancy misses are correct but
+incomplete answers.</li>
+<li>Section-aware chunking for the Gazette (rule-number boundaries)
+instead of fixed token windows.</li>
+<li>Incremental ingestion (re-embed only changed content hashes).</li>
+</ul>
+<h2 id="repo-layout">Repo layout</h2>
+<pre><code>configs/            settings.yaml, prompts/answer_v1.yaml, prompts/judge_v1.yaml
+data/raw/           33 source documents (see data/SOURCES.md for URLs + licenses)
+eval/               golden.jsonl (60 items) + build_golden.py
+src/dronedocs/      loaders, chunking, retrieval, rerank, pipeline (LangGraph), citations, llm, api, cli
+src/dronedocs/eval/ metrics, run_eval (checkpointed), ragas_eval
+scripts/            verify_golden.py, retrieval_ablation.py, make_charts.py
+reports/            latest.json, retrieval_ablation*.json
+docs/               charts
+tests/              offline unit tests (fake index / reranker / LLM)</code></pre>
+<h2 id="license">License</h2>
+<p>MIT. Corpus documents keep their original licenses (Government of
+India public documents; ArduPilot wiki CC BY-SA 3.0; PX4 docs CC BY
+4.0). See <code>data/SOURCES.md</code>.</p>
+</main>
+<footer><div class="wrap">© 2026 Rakesh Burla · MIT License · <a href="https://github.com/burlarakesh1458-sys/dronedocs-production-rag">https://github.com/burlarakesh1458-sys/dronedocs-production-rag</a></div></footer>
+<script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";mermaid.initialize({startOnLoad:true,theme:"default"});</script>
+</body></html>
