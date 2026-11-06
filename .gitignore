@@ -1,0 +1,21 @@
+# environments & secrets
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# large / regenerable artifacts (rebuild with `make ingest`)
+data/index/
+.cache/
+models/
+*.sqlite
+*.sqlite3
+
+# per-run eval outputs: only reports/latest.json + ablation/ragas summaries are committed
+reports/eval_*.json
+reports/checkpoint_*.jsonl
+.DS_Store

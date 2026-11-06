@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    env_file: .env
+    ports: ["8000:8000"]
+    restart: unless-stopped
+  ui:
+    build: .
+    env_file: .env
+    command: ["sh", "-c", "pip install streamlit==1.67.0 && streamlit run ui/streamlit_app.py --server.address 0.0.0.0"]
+    volumes: ["./ui:/app/ui:ro"]
+    ports: ["8501:8501"]
+    depends_on: [api]
