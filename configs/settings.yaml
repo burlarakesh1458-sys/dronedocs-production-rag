@@ -65,7 +65,7 @@ eval:
   concurrency: 1                 # free-tier TPM (8k/min) is shared; 1 in flight avoids retry storms
   ragas: true                    # try Ragas; falls back to the built-in judge if it errors
   ragas_sample: 3                # Ragas is call-heavy (~9k tokens/item); a small cross-check of the built-in judge
-  ragas_model: openai/gpt-oss-20b
+  ragas_model: qwen/qwen3.8-27b
   thresholds:                    # CI fails if any metric is below its threshold
     faithfulness: 0.80
     answer_relevancy: 0.75

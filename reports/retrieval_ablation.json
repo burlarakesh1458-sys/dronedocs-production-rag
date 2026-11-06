@@ -1,0 +1,37 @@
+{
+  "n_questions": 52,
+  "k": 4,
+  "rerank_candidates": 12,
+  "rerank_max_length": 256,
+  "chunks_in_index": 156,
+  "results": {
+    "vector": {
+      "hit@k": 0.9423,
+      "mrr@k": 0.7452,
+      "recall@20": 1.0,
+      "p50_ms": 127.0,
+      "p95_ms": 220.0
+    },
+    "bm25": {
+      "hit@k": 0.9038,
+      "mrr@k": 0.766,
+      "recall@20": 1.0,
+      "p50_ms": 0.5,
+      "p95_ms": 1.8
+    },
+    "hybrid_rrf": {
+      "hit@k": 0.9231,
+      "mrr@k": 0.8109,
+      "recall@20": 1.0,
+      "p50_ms": 130.6,
+      "p95_ms": 776.4
+    },
+    "hybrid_rrf+rerank": {
+      "hit@k": 0.8846,
+      "mrr@k": 0.7276,
+      "recall@20": 1.0,
+      "p50_ms": 2193.9,
+      "p95_ms": 4127.7
+    }
+  }
+}
