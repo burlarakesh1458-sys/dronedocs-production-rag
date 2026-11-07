@@ -1,6 +1,7 @@
 {
-  "timestamp": "2026-11-06T05:58:34+00:00",
+  "timestamp": "2026-11-07T05:18:16+00:00",
   "generator_model": "openai/gpt-oss-20b",
+  "mode": "live",
   "judge_model": "qwen/qwen3.8-27b",
   "prompt_version": "answer-v1.2",
   "judge_prompt_version": "judge-v1.1",
@@ -33,94 +34,56 @@
     "refusal_correctness": 0.8
   },
   "gate_failures": [
-    "answer_relevancy=0.7059 < 0.75",
-    "citation_accuracy=0.8333 < 0.9"
+    "answer_relevancy=0.6538 < 0.75",
+    "citation_accuracy=0.8537 < 0.9"
   ],
   "passed": false,
-  "partial": true,
+  "partial": false,
   "summary": {
-    "n_items": 38,
-    "n_answerable": 34,
-    "n_unanswerable": 4,
-    "n_not_evaluated_quota": 22,
-    "not_evaluated_ids": [
-      "ap-07",
-      "ap-08",
-      "ap-09",
-      "ap-10",
-      "ap-11",
-      "px-01",
-      "px-02",
-      "px-03",
-      "px-04",
-      "px-05",
-      "px-06",
-      "px-07",
-      "px-08",
-      "px-09",
-      "px-10",
-      "px-11",
-      "px-12",
-      "px-13",
-      "na-01",
-      "na-04",
-      "na-06",
-      "na-07"
-    ],
-    "faithfulness": 0.9444,
-    "answer_relevancy": 0.7059,
-    "context_recall": 0.8824,
-    "context_precision": 0.7042,
-    "citation_accuracy": 0.8333,
+    "n_items": 60,
+    "n_answerable": 52,
+    "n_unanswerable": 8,
+    "n_not_evaluated_quota": 0,
+    "not_evaluated_ids": [],
+    "faithfulness": 0.935,
+    "answer_relevancy": 0.6538,
+    "context_recall": 0.8846,
+    "context_precision": 0.7089,
+    "citation_accuracy": 0.8537,
     "citation_validity": 1.0,
-    "refusal_correctness": 0.8947,
-    "answer_rate_answerable": 0.8824,
+    "refusal_correctness": 0.8167,
+    "answer_rate_answerable": 0.7885,
     "refusal_rate_unanswerable": 1.0,
     "fused_recall@20": 1.0,
-    "mrr@top_n": 0.7157,
+    "mrr@top_n": 0.7276,
     "errors": 0,
     "latency": {
       "retrieve": {
-        "p50_ms": 212.1,
-        "p95_ms": 1670.2
+        "p50_ms": 257.7,
+        "p95_ms": 1565.9
       },
       "rerank": {
-        "p50_ms": 1722.3,
-        "p95_ms": 2577.6
+        "p50_ms": 1856.4,
+        "p95_ms": 3680.1
       },
       "generate": {
-        "p50_ms": 14281.6,
-        "p95_ms": 17585.4
+        "p50_ms": 13928.6,
+        "p95_ms": 42463.3
       },
       "total": {
-        "p50_ms": 15866.7,
-        "p95_ms": 19099.5
+        "p50_ms": 14872.3,
+        "p95_ms": 46266.2
       }
     },
     "tokens": {
-      "prompt": 76867,
-      "completion": 3070,
-      "judge": 31420
+      "prompt": 129021,
+      "completion": 4952,
+      "judge": 42883
     },
-    "mean_prompt_tokens": 2329.3,
-    "wall_time_s": null
+    "mean_prompt_tokens": 2345.8,
+    "wall_time_s": 944.6
   },
-  "ragas": {
-    "status": "ok",
-    "n": 3,
-    "ragas_model": "qwen/qwen3.8-27b",
-    "faithfulness": 1.0,
-    "faithfulness_n_scored": 3,
-    "context_recall": 1.0,
-    "context_recall_n_scored": 3,
-    "builtin_faithfulness_same_items": 1.0,
-    "ids": [
-      "dr-01",
-      "dr-02",
-      "dr-03"
-    ],
-    "generator_model": "openai/gpt-oss-20b"
-  },
+  "ragas": null,
   "rows": [
     {
       "id": "dr-01",
@@ -1757,402 +1720,591 @@
       "id": "ap-07",
       "question": "What is the default RTL_ALT_M return altitude in ArduPilot Copter?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 930s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199516, Requested 2636. Please try again in 15m29.664s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "The default RTL_ALT_M return altitude in ArduPilot Copter is **15\u202fmeters**[ardupilot_copter_rtl-mode.html#c002][ardupilot_copter_rtl-mode.html#c000]",
+      "raw_answer": "The default RTL_ALT_M return altitude in ArduPilot Copter is **15\u202fmeters**\u3010ardupilot_copter_rtl-mode.html#c002\u3011\u3010ardupilot_copter_rtl-mode.html#c000\u3011",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_rtl-mode.html#c002",
+        "ardupilot_copter_rtl-mode.html#c000",
+        "px4_flight_modes_return.md#c011",
+        "px4_flight_modes_return.md#c009"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c002",
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c002",
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "best_rerank_score": 7.9192,
       "latency_s": {
-        "retrieve": 0.11586329400006434,
-        "rerank": 1.2182055279999986,
-        "evidence_gate": 1.5562000044155866e-05,
-        "total": 1.683818513999995
+        "retrieve": 6.461905753999872,
+        "rerank": 4.50700525800039,
+        "evidence_gate": 7.015999926807126e-06,
+        "generate": 0.623669233000328,
+        "validate_citations": 0.00037965000001349836,
+        "total": 11.779626015999838
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2562,
+        "completion_tokens": 113,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 1,
+      "judge_supported": 1,
+      "judge_reason": "The system answer correctly identifies the default RTL_ALT_M value as 15 meters, which matches the reference answer and is explicitly supported by the cited passages.",
+      "judge_tokens": 1603
     },
     {
       "id": "ap-08",
       "question": "What does RTL_CONE_SLOPE control and what is its default?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1013s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199512, Requested 2832. Please try again in 16m52.608s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "RTL_CONE_SLOPE defines the slope of an inverted cone above the return point that limits how high the vehicle climbs when entering RTL; a lower value gives a wider cone and less climb, a higher value allows more climb. The default slope is 3\u202f[ardupilot_copter_rtl-mode.html#c000].",
+      "raw_answer": "RTL_CONE_SLOPE defines the slope of an inverted cone above the return point that limits how high the vehicle climbs when entering RTL; a lower value gives a wider cone and less climb, a higher value allows more climb. The default slope is 3\u202f[ardupilot_copter_rtl-mode.html#c000].",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_rtl-mode.html#c003",
+        "ardupilot_copter_rtl-mode.html#c000",
+        "px4_flight_modes_return.md#c011",
+        "ardupilot_copter_rtl-mode.html#c001"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "best_rerank_score": 5.7561,
       "latency_s": {
-        "retrieve": 0.19743823899989366,
-        "rerank": 1.0305546080001022,
-        "evidence_gate": 4.286999910618761e-06,
-        "total": 1.29634890300008
+        "retrieve": 0.2601916660000825,
+        "rerank": 2.603142647000368,
+        "evidence_gate": 6.7279997892910615e-06,
+        "generate": 1.1780227999997805,
+        "validate_citations": 0.00019390600027691107,
+        "total": 4.053052156999911
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2243,
+        "completion_tokens": 121,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 4,
+      "judge_supported": 4,
+      "judge_reason": "The system answer correctly identifies the function of RTL_CONE_SLOPE and its default value of 3, matching the reference answer.",
+      "judge_tokens": 1093
     },
     {
       "id": "ap-09",
       "question": "What is the default final descent speed LAND_SPD_MS in ArduPilot Land mode?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 784s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199509, Requested 2304. Please try again in 13m3.216s. Need more tokens? Upgrade to Dev Tier today at https://c",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "The default final descent speed in ArduPilot Land mode is **50\u202fcm/s** (LAND_SPD_MS defaults to 50\u202fcm/s)[ardupilot_copter_land-mode.html#c000].",
+      "raw_answer": "The default final descent speed in ArduPilot Land mode is **50\u202fcm/s** (LAND_SPD_MS defaults to 50\u202fcm/s)\u3010ardupilot_copter_land-mode.html#c000\u3011.",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_land-mode.html#c000",
+        "ardupilot_copter_land-mode.html#c001",
+        "px4_flight_modes_mc_land.md#c001",
+        "px4_flight_modes_mc_land.md#c000"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_land-mode.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_land-mode.html#c000"
+      ],
+      "best_rerank_score": 4.997,
       "latency_s": {
-        "retrieve": 0.36686862700003076,
-        "rerank": 1.1925915939998504,
-        "evidence_gate": 6.681000058961217e-06,
-        "total": 1.6223708669999723
+        "retrieve": 0.25750933700010137,
+        "rerank": 3.055898420000176,
+        "evidence_gate": 5.593999958364293e-06,
+        "generate": 0.5885348700003306,
+        "validate_citations": 0.0001494459997957165,
+        "total": 3.9095028300002923
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2213,
+        "completion_tokens": 121,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 2,
+      "judge_supported": 2,
+      "judge_reason": "The system answer correctly identifies the default value of LAND_SPD_MS as 50 cm/s, matching the reference answer and supported by the cited passage.",
+      "judge_tokens": 1007
     },
     {
       "id": "ap-10",
       "question": "How many built-in flight modes does ArduPilot Copter have?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 934s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199505, Requested 2656. Please try again in 15m33.552s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "ArduPilot Copter has 25 built\u2011in flight modes. [ardupilot_copter_flight-modes.html#c000]",
+      "raw_answer": "ArduPilot Copter has 25 built\u2011in flight modes. [ardupilot_copter_flight-modes.html#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_flight-modes.html#c000",
+        "ardupilot_copter_common-geofencing-landing-page.html#c000",
+        "ardupilot_copter_altholdmode.html#c000",
+        "ardupilot_copter_rtl-mode.html#c002"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_flight-modes.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_flight-modes.html#c000"
+      ],
+      "best_rerank_score": 8.0734,
       "latency_s": {
-        "retrieve": 0.14425570599996718,
-        "rerank": 1.219851535999851,
-        "evidence_gate": 1.3156000022718217e-05,
-        "total": 1.423722701000088
+        "retrieve": 0.2578669419999642,
+        "rerank": 2.508087333000276,
+        "evidence_gate": 3.1639997359889094e-06,
+        "generate": 43.72501453200039,
+        "validate_citations": 0.0002540999998927873,
+        "total": 46.504089107000254
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2565,
+        "completion_tokens": 61,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5,
+      "judge_claims": 1,
+      "judge_supported": 1,
+      "judge_reason": "The system answer correctly states the total number of modes but omits the key detail from the reference that 10 of them are regularly used.",
+      "judge_tokens": 964
     },
     {
       "id": "ap-11",
       "question": "Which ArduPilot copter flight modes do not require position information?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "The following Copter flight modes do **not** require valid position information before take\u2011off:  \nAcro, AirMode, Alt Hold, Stabilize, Sport, SysID, Turtle, Land, Throw, ZigZag, and Simple/Super Simple.  \n[ardupilot_copter_flight-modes.html#c002]",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 997s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199502, Requested 2805. Please try again in 16m36.624s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_flight-modes.html#c000",
+        "ardupilot_copter_flight-modes.html#c002",
+        "ardupilot_copter_arming_the_motors.html#c001",
+        "ardupilot_copter_auto-mode.html#c000"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_flight-modes.html#c002"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_flight-modes.html#c002"
+      ],
+      "best_rerank_score": 5.0127,
       "latency_s": {
-        "retrieve": 0.06963317700001426,
-        "rerank": 1.0506166150000809,
-        "evidence_gate": 2.6358000013715355e-05,
-        "total": 1.1954146170000968
+        "retrieve": 0.2598202849999325,
+        "rerank": 2.2226816919996963,
+        "evidence_gate": 4.226999863021774e-06,
+        "generate": 1.86734953999985,
+        "validate_citations": 0.0001502990003245941,
+        "total": 4.355059734999941
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2181,
+        "completion_tokens": 98,
         "retries": 0
       },
       "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
       "answer_relevancy": 0.0
     },
     {
       "id": "px-01",
       "question": "What are the default PX4 arming and disarming stick gestures?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "The default PX4 stick gestures are:\n\n- **Arming:** Move the throttle stick to its minimum and the yaw stick to its maximum, then hold for 1\u202fsecond.  \n- **Disarming:** Move the throttle stick to its minimum and the yaw stick to its minimum, then hold for 1\u202fsecond.  \n\n[px4_advanced_config_prearm_arm_disarm.md#c001]",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1100s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199499, Requested 3046. Please try again in 18m19.44s. Need more tokens? Upgrade to Dev Tier today at https://c",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c001",
+        "px4_advanced_config_prearm_arm_disarm.md#c002",
+        "px4_advanced_config_prearm_arm_disarm.md#c000",
+        "px4_advanced_config_prearm_arm_disarm.md#c003"
+      ],
+      "cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c001"
+      ],
+      "raw_cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c001"
+      ],
+      "best_rerank_score": 4.4244,
       "latency_s": {
-        "retrieve": 0.20485981100000572,
-        "rerank": 1.1583777629998622,
-        "evidence_gate": 4.489000048124581e-06,
-        "total": 1.4237890839999636
+        "retrieve": 0.3677101409998613,
+        "rerank": 1.8803306529998736,
+        "evidence_gate": 4.259999968780903e-06,
+        "generate": 2.2796167980000064,
+        "validate_citations": 0.00017724400004226482,
+        "total": 4.547099664000143
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2457,
+        "completion_tokens": 129,
         "retries": 0
       },
       "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
       "answer_relevancy": 0.0
     },
     {
       "id": "px-02",
       "question": "What is the default PX4 auto-disarm timeout after landing (COM_DISARM_LAND)?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1157s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199496, Requested 3182. Please try again in 19m16.896s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c018",
+        "px4_advanced_config_prearm_arm_disarm.md#c003",
+        "px4_flight_modes_mc_land.md#c000",
+        "px4_config_safety.md#c005"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": 4.3228,
       "latency_s": {
-        "retrieve": 0.2408325789999708,
-        "rerank": 1.0066484169999512,
-        "evidence_gate": 4.048999926453689e-06,
-        "total": 1.3387025079998693
+        "retrieve": 0.14266197500001,
+        "rerank": 1.9082562250000592,
+        "evidence_gate": 4.571999852487352e-06,
+        "generate": 45.16100123800015,
+        "validate_citations": 0.00013540800000555464,
+        "total": 47.21871437600021
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2592,
+        "completion_tokens": 106,
         "retries": 0
       },
       "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
       "answer_relevancy": 0.0
     },
     {
       "id": "px-03",
       "question": "How long does PX4 wait for takeoff before auto-disarming (COM_DISARM_PRFLT)?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 820s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199493, Requested 2403. Please try again in 13m39.072s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c003",
+        "px4_config_safety.md#c018",
+        "px4_flight_modes_mc_mission.md#c001",
+        "ardupilot_copter_arming_the_motors.html#c001"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": 3.8999,
       "latency_s": {
-        "retrieve": 0.23511972999995123,
-        "rerank": 0.998647185999971,
-        "evidence_gate": 3.547000005710288e-06,
-        "total": 1.2949591950000467
+        "retrieve": 0.5185430370001995,
+        "rerank": 2.066733106999891,
+        "evidence_gate": 4.12600002164254e-06,
+        "generate": 1.775615592000122,
+        "validate_citations": 5.898300014450797e-05,
+        "total": 4.366453622000336
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2312,
+        "completion_tokens": 36,
         "retries": 0
       },
       "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
       "answer_relevancy": 0.0
     },
     {
       "id": "px-04",
       "question": "At what rate does PX4 run arming checks internally?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1112s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199490, Requested 3082. Please try again in 18m31.104s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "PX4 runs arming checks internally at 10\u202fHz. [px4_advanced_config_prearm_arm_disarm.md#c000]",
+      "raw_answer": "PX4 runs arming checks internally at 10\u202fHz. [px4_advanced_config_prearm_arm_disarm.md#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c004",
+        "px4_advanced_config_prearm_arm_disarm.md#c003",
+        "px4_advanced_config_prearm_arm_disarm.md#c000",
+        "ardupilot_copter_arming_the_motors.html#c000"
+      ],
+      "cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c000"
+      ],
+      "raw_cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c000"
+      ],
+      "best_rerank_score": -0.3134,
       "latency_s": {
-        "retrieve": 0.1235093139998753,
-        "rerank": 1.0771264249999604,
-        "evidence_gate": 4.3089999053336214e-06,
-        "total": 1.2628874890001498
+        "retrieve": 0.3443873800001711,
+        "rerank": 1.9722276769998643,
+        "evidence_gate": 5.050000254414044e-06,
+        "generate": 37.18173461200013,
+        "validate_citations": 0.0001579589998073061,
+        "total": 39.50487262100023
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2492,
+        "completion_tokens": 49,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0,
+      "faithfulness": 0.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 1,
+      "judge_supported": 0,
+      "judge_reason": "The system answer matches the reference answer exactly, although the specific rate is not explicitly stated in the provided cited passage.",
+      "judge_tokens": 948
     },
     {
       "id": "px-05",
       "question": "In PX4, if several failsafes trigger at once, which action is taken?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 870s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199486, Requested 2527. Please try again in 14m29.616s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "If multiple failsafes trigger simultaneously, PX4 takes the most severe action among them. For example, if RC loss is set to Return mode and GCS link loss to Land, the Land action is executed. [px4_config_safety.md#c001]",
+      "raw_answer": "If multiple failsafes trigger simultaneously, PX4 takes the most severe action among them. For example, if RC loss is set to Return mode and GCS link loss to Land, the Land action is executed. [px4_config_safety.md#c001]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c000",
+        "px4_config_safety.md#c010",
+        "px4_config_safety.md#c001",
+        "px4_advanced_config_flight_termination.md#c000"
+      ],
+      "cited_ids": [
+        "px4_config_safety.md#c001"
+      ],
+      "raw_cited_ids": [
+        "px4_config_safety.md#c001"
+      ],
+      "best_rerank_score": 4.5564,
       "latency_s": {
-        "retrieve": 0.18786439199993765,
-        "rerank": 1.3402813729999252,
-        "evidence_gate": 1.4985000007072813e-05,
-        "total": 1.5925590190001913
+        "retrieve": 0.40803270500009603,
+        "rerank": 1.868801410999822,
+        "evidence_gate": 4.5409997255774215e-06,
+        "generate": 1.7173831240002073,
+        "validate_citations": 0.00010989600013999734,
+        "total": 3.9993541040003038
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2436,
+        "completion_tokens": 83,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 2,
+      "judge_supported": 2,
+      "judge_reason": "The system answer correctly identifies that the most severe action is taken and provides the specific example from the reference, matching the key facts.",
+      "judge_tokens": 948
     },
     {
       "id": "px-06",
       "question": "Which PX4 parameter sets the geofence breach action, and what options does it have?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 922s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199483, Requested 2650. Please try again in 15m21.455999999s. Need more tokens? Upgrade to Dev Tier today at ht",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "The PX4 parameter that sets the geofence breach action is **GF_ACTION**. Its possible values are: **None, Warning, Hold mode, Return mode, Terminate, Land**.[px4_config_safety.md#c007]",
+      "raw_answer": "The PX4 parameter that sets the geofence breach action is **GF_ACTION**.  \nIts possible values are: **None, Warning, Hold mode, Return mode, Terminate, Land**.\u3010px4_config_safety.md#c007\u3011",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c007",
+        "px4_flying_geofence.md#c001",
+        "px4_flying_geofence.md#c000",
+        "px4_advanced_config_flight_termination.md#c000"
+      ],
+      "cited_ids": [
+        "px4_config_safety.md#c007"
+      ],
+      "raw_cited_ids": [
+        "px4_config_safety.md#c007"
+      ],
+      "best_rerank_score": 5.5177,
       "latency_s": {
-        "retrieve": 0.2522916890000033,
-        "rerank": 1.0865975919998618,
-        "evidence_gate": 8.185000069715898e-06,
-        "total": 1.4159170159998666
+        "retrieve": 0.510252815000058,
+        "rerank": 2.5233399039998403,
+        "evidence_gate": 4.428000011102995e-06,
+        "generate": 31.17264887600004,
+        "validate_citations": 0.00020451199998205993,
+        "total": 34.21207414899982
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2060,
+        "completion_tokens": 86,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 2,
+      "judge_supported": 2,
+      "judge_reason": "The system answer correctly identifies the parameter GF_ACTION and lists all its valid options as specified in the reference and cited passage.",
+      "judge_tokens": 982
     },
     {
       "id": "px-07",
       "question": "Which COM_LOW_BAT_ACT option does PX4 recommend for the battery failsafe?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 871s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199481, Requested 2534. Please try again in 14m30.48s. Need more tokens? Upgrade to Dev Tier today at https://c",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "PX4 recommends using **option\u202f3** (`Distance\u2011aware return, Critical level return, Emergency level land`) for the battery failsafe, as it provides a controlled landing when the battery is depleted. [px4_config_safety.md#c002]",
+      "raw_answer": "PX4 recommends using **option\u202f3** (`Distance\u2011aware return, Critical level return, Emergency level land`) for the battery failsafe, as it provides a controlled landing when the battery is depleted. [px4_config_safety.md#c002]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_failsafe-battery.html#c002",
+        "px4_config_safety.md#c002",
+        "ardupilot_copter_failsafe-battery.html#c000",
+        "px4_config_safety.md#c000"
+      ],
+      "cited_ids": [
+        "px4_config_safety.md#c002"
+      ],
+      "raw_cited_ids": [
+        "px4_config_safety.md#c002"
+      ],
+      "best_rerank_score": 3.7045,
       "latency_s": {
-        "retrieve": 0.105596486000195,
-        "rerank": 0.9148213109999688,
-        "evidence_gate": 5.8200000694341725e-06,
-        "total": 1.077702760999955
+        "retrieve": 0.36014167599978464,
+        "rerank": 2.81755274499983,
+        "evidence_gate": 4.378000085125677e-06,
+        "generate": 0.8745967099998779,
+        "validate_citations": 0.00015216599967970978,
+        "total": 4.058066972000233
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2443,
+        "completion_tokens": 222,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 3,
+      "judge_supported": 3,
+      "judge_reason": "The system answer correctly identifies Option 3 and its specific description, matching the reference answer and supported by the cited passage.",
+      "judge_tokens": 1058
     },
     {
       "id": "px-08",
       "question": "What does the PX4 maximum flight time failsafe COM_FLT_TIME_MAX do?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 961s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199477, Requested 2746. Please try again in 16m0.336s. Need more tokens? Upgrade to Dev Tier today at https://c",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c000",
+        "px4_config_safety.md#c015",
+        "px4_flying_geofence.md#c000",
+        "px4_config_safety_simulation.md#c000"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": 0.3452,
       "latency_s": {
-        "retrieve": 0.16004078099990693,
-        "rerank": 0.9952635499998905,
-        "evidence_gate": 4.884999952992075e-06,
-        "total": 1.3739500219999172
+        "retrieve": 0.31588256599980014,
+        "rerank": 2.924067389999891,
+        "evidence_gate": 4.9390000640414655e-06,
+        "generate": 0.7029166470001655,
+        "validate_citations": 7.044799986033468e-05,
+        "total": 3.9476020030001564
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2196,
+        "completion_tokens": 26,
         "retries": 0
       },
       "refusal_correct": false,
       "context_recall": 0.0,
       "context_precision": 0.0,
-      "fused_recall": 0.0,
+      "fused_recall": 1.0,
       "mrr": 0.0,
       "answer_relevancy": 0.0
     },
@@ -2160,92 +2312,135 @@
       "id": "px-09",
       "question": "In PX4 Position mode, above what throttle stick position does the vehicle take off when landed?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1066s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199475, Requested 2992. Please try again in 17m45.744s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "In PX4 Position mode, the vehicle will take off when the throttle stick is raised above **62.5\u202f%** of the full range from bottom. [px4_flight_modes_mc_position.md#c001]",
+      "raw_answer": "In PX4 Position mode, the vehicle will take off when the throttle stick is raised above **62.5\u202f%** of the full range from bottom. [px4_flight_modes_mc_position.md#c001]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_mc_position.md#c001",
+        "px4_flight_modes_mc_position.md#c000",
+        "ardupilot_copter_altholdmode.html#c001",
+        "px4_flight_modes_mc_takeoff.md#c000"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_mc_position.md#c001"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_mc_position.md#c001"
+      ],
+      "best_rerank_score": 4.3431,
       "latency_s": {
-        "retrieve": 0.11926528699996197,
-        "rerank": 1.0646579700000984,
-        "evidence_gate": 1.2359000038486556e-05,
-        "total": 1.2479853279999134
+        "retrieve": 0.34457351199989716,
+        "rerank": 2.6077903939999487,
+        "evidence_gate": 8.945999979914632e-06,
+        "generate": 41.64075757799992,
+        "validate_citations": 0.00023470499991162797,
+        "total": 44.602745395000056
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2368,
+        "completion_tokens": 80,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 1,
+      "judge_supported": 1,
+      "judge_reason": "The system answer correctly identifies the specific throttle stick threshold (62.5%) for takeoff in PX4 Position mode, matching the reference answer and cited evidence.",
+      "judge_tokens": 879
     },
     {
       "id": "px-10",
       "question": "What are the default maximum ascent and descent velocities in PX4 Position mode?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 976s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199471, Requested 2788. Please try again in 16m15.887999999s. Need more tokens? Upgrade to Dev Tier today at ht",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "The default maximum ascent velocity is **3\u202fm/s** and the default maximum descent velocity is **1\u202fm/s** in PX4 Position mode. [px4_flight_modes_mc_position.md#c002]",
+      "raw_answer": "The default maximum ascent velocity is **3\u202fm/s** and the default maximum descent velocity is **1\u202fm/s** in PX4 Position mode. [px4_flight_modes_mc_position.md#c002]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_mc_altitude.md#c001",
+        "px4_flight_modes_mc_position.md#c002",
+        "px4_flight_modes_mc_position.md#c000",
+        "px4_flight_modes_mc_mission.md#c004"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_mc_position.md#c002"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_mc_position.md#c002"
+      ],
+      "best_rerank_score": 2.1279,
       "latency_s": {
-        "retrieve": 0.07760103000009622,
-        "rerank": 1.1943959969999014,
-        "evidence_gate": 1.1175000054208795e-05,
-        "total": 1.3433017039999413
+        "retrieve": 0.44439969999984896,
+        "rerank": 3.6396016439998675,
+        "evidence_gate": 4.758000159199582e-06,
+        "generate": 0.5141179370002646,
+        "validate_citations": 0.0001730069998302497,
+        "total": 4.604791458999898
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2162,
+        "completion_tokens": 99,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "judge_claims": 2,
+      "judge_supported": 2,
+      "judge_reason": "The system answer correctly identifies the default ascent and descent velocities as 3 m/s and 1 m/s respectively, matching the reference answer and supported by the cited passage.",
+      "judge_tokens": 1011
     },
     {
       "id": "px-11",
       "question": "Which parameter sets the descent rate in PX4 multicopter Land mode?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1095s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199468, Requested 3066. Please try again in 18m14.688s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_mc_mission.md#c004",
+        "px4_config_safety.md#c012",
+        "ardupilot_copter_land-mode.html#c000"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": 3.5823,
       "latency_s": {
-        "retrieve": 0.10421197400000892,
-        "rerank": 1.2272570369998448,
-        "evidence_gate": 8.540000180801144e-06,
-        "total": 1.404208074999815
+        "retrieve": 0.7314168110001447,
+        "rerank": 2.474288472000353,
+        "evidence_gate": 4.714999704447109e-06,
+        "generate": 0.7652101510002467,
+        "validate_citations": 7.632100005139364e-05,
+        "total": 3.976081033000355
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2486,
+        "completion_tokens": 62,
         "retries": 0
       },
       "refusal_correct": false,
       "context_recall": 0.0,
       "context_precision": 0.0,
-      "fused_recall": 0.0,
+      "fused_recall": 1.0,
       "mrr": 0.0,
       "answer_relevancy": 0.0
     },
@@ -2253,86 +2448,122 @@
       "id": "px-12",
       "question": "What position estimate does PX4 Return mode require?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
-      "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1089s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199465, Requested 3055. Please try again in 18m8.64s. Need more tokens? Upgrade to Dev Tier today at https://co",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "answer": "PX4 Return mode requires a global 3\u2011D position estimate (from GPS or inferred from a local position). [px4_flight_modes_return.md#c000]",
+      "raw_answer": "PX4 Return mode requires a global 3\u2011D position estimate (from GPS or inferred from a local position). [px4_flight_modes_return.md#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_return.md#c000",
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_return.md#c001",
+        "px4_config_battery.md#c000"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_return.md#c000"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_return.md#c000"
+      ],
+      "best_rerank_score": 2.9226,
       "latency_s": {
-        "retrieve": 0.09972360100005062,
-        "rerank": 1.200534861999813,
-        "evidence_gate": 5.074000000604428e-06,
-        "total": 1.3620168090001243
+        "retrieve": 0.30504226199991535,
+        "rerank": 2.4987860940000246,
+        "evidence_gate": 6.5289996200590394e-06,
+        "generate": 43.43621109900005,
+        "validate_citations": 0.002074594000077923,
+        "total": 46.25366271400026
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2431,
+        "completion_tokens": 71,
         "retries": 0
       },
-      "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
-      "answer_relevancy": 0.0
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5,
+      "judge_claims": 1,
+      "judge_supported": 1,
+      "judge_reason": "The system answer misses the key requirement that the home position must be set, which is explicitly stated in the reference answer and cited passage.",
+      "judge_tokens": 970
     },
     {
       "id": "px-13",
       "question": "What is the default PX4 Return mode behaviour for a multicopter?",
       "answerable": true,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "The default PX4 Return mode for a multicopter is **RTL_TYPE\u202f=\u202f0** (Home/rally point return). In this mode the vehicle:  \n- Ascends to a safe minimum return altitude,  \n- Flies to the closest home or rally point using a geofence\u2011aware horizontal path when possible,  \n- On arrival descends to the configured descent altitude and waits for a configurable time (default 0\u202fs, so it lands immediately), and  \n- Lands (or waits if landing parameters differ) with the vehicle in MC mode.  \n\n[px4_flight_modes_return.md#c002]",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1050s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199462, Requested 2968. Please try again in 17m29.76s. Need more tokens? Upgrade to Dev Tier today at https://c",
-      "context_ids": [],
-      "cited_ids": [],
-      "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_return.md#c000",
+        "px4_flight_modes_return.md#c001",
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_return.md#c002"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_return.md#c002"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_return.md#c002"
+      ],
+      "best_rerank_score": 4.0784,
       "latency_s": {
-        "retrieve": 0.14343399200015483,
-        "rerank": 1.138875212999892,
-        "evidence_gate": 1.1885999811056536e-05,
-        "total": 1.3507889239999713
+        "retrieve": 0.34994414499988125,
+        "rerank": 3.330893882000055,
+        "evidence_gate": 4.561999958241358e-06,
+        "generate": 0.5486783310002465,
+        "validate_citations": 0.0001778229998308234,
+        "total": 4.240954626000075
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2388,
+        "completion_tokens": 184,
         "retries": 0
       },
       "refusal_correct": false,
-      "context_recall": 0.0,
-      "context_precision": 0.0,
-      "fused_recall": 0.0,
-      "mrr": 0.0,
+      "context_recall": 1.0,
+      "context_precision": 0.9166666666666666,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
       "answer_relevancy": 0.0
     },
     {
       "id": "na-01",
       "question": "What is the drone registration fee in the United States under FAA Part 107?",
       "answerable": false,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1057s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199457, Requested 2989. Please try again in 17m36.672s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "drone_rules_2021.pdf#c008"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": -2.102,
       "latency_s": {
-        "retrieve": 0.1300871299999926,
-        "rerank": 2.0725861349999377,
-        "evidence_gate": 9.739999995872495e-06,
-        "total": 2.270461510999894
+        "retrieve": 0.6896662369999831,
+        "rerank": 4.4502883180002755,
+        "evidence_gate": 7.389000074908836e-06,
+        "generate": 0.5752965350002341,
+        "validate_citations": 0.00019951700005549355,
+        "total": 5.7220890629996575
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2365,
+        "completion_tokens": 37,
         "retries": 0
       },
       "refusal_correct": true
@@ -2405,24 +2636,31 @@
       "id": "na-04",
       "question": "What is the price of a DGCA remote pilot training course in Hyderabad?",
       "answerable": false,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1051s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199454, Requested 2978. Please try again in 17m30.624s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "drone_rules_2021.pdf#c013",
+        "drone_rules_2021.pdf#c020",
+        "drone_rules_2021.pdf#c012"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": -2.1864,
       "latency_s": {
-        "retrieve": 0.09383701899992047,
-        "rerank": 1.0777207260000523,
-        "evidence_gate": 4.1599998894525925e-06,
-        "total": 1.2344694810001329
+        "retrieve": 0.3506274490000578,
+        "rerank": 4.777660029999879,
+        "evidence_gate": 7.221000032586744e-06,
+        "generate": 42.04630272099985,
+        "validate_citations": 0.00019445200041445787,
+        "total": 47.18715416299983
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2398,
+        "completion_tokens": 33,
         "retries": 0
       },
       "refusal_correct": true
@@ -2463,24 +2701,31 @@
       "id": "na-06",
       "question": "What is the default MPC_XY_CRUISE speed in PX4 missions?",
       "answerable": false,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 845s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199450, Requested 2504. Please try again in 14m4.127999999s. Need more tokens? Upgrade to Dev Tier today at htt",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_mc_mission.md#c002",
+        "px4_flight_modes_return.md#c001",
+        "px4_flight_modes_mc_mission.md#c001"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": 0.247,
       "latency_s": {
-        "retrieve": 0.1513956200001303,
-        "rerank": 1.290732159999834,
-        "evidence_gate": 4.873000079896883e-06,
-        "total": 1.5107575780000388
+        "retrieve": 0.5450508359999731,
+        "rerank": 2.784002290000444,
+        "evidence_gate": 6.536000000778586e-06,
+        "generate": 1.007758685999761,
+        "validate_citations": 5.531100032385439e-05,
+        "total": 4.355989540999872
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2413,
+        "completion_tokens": 34,
         "retries": 0
       },
       "refusal_correct": true
@@ -2489,24 +2734,31 @@
       "id": "na-07",
       "question": "How many drone pilots were certified in India in 2025?",
       "answerable": false,
-      "answer": "The system hit an error while answering. Please retry.",
-      "raw_answer": "",
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
       "refused": true,
-      "refusal_reason": "error",
-      "error": "LLMError: quota exhausted (retry-after 1064s): HTTP 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01m4qehpzhes290vf2dr4qhhzj` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199447, Requested 3015. Please try again in 17m43.584s. Need more tokens? Upgrade to Dev Tier today at https://",
-      "context_ids": [],
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "drone_rules_2021.pdf#c000"
+      ],
       "cited_ids": [],
       "raw_cited_ids": [],
-      "best_rerank_score": null,
+      "best_rerank_score": 2.5322,
       "latency_s": {
-        "retrieve": 0.10544919599988134,
-        "rerank": 1.129602535999993,
-        "evidence_gate": 7.819000074960059e-06,
-        "total": 1.2920264399999724
+        "retrieve": 0.208791315000326,
+        "rerank": 3.3074010590003127,
+        "evidence_gate": 3.795999873545952e-06,
+        "generate": 0.8568166770000971,
+        "validate_citations": 5.8523999996396014e-05,
+        "total": 4.377524600000015
       },
       "usage": {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
+        "prompt_tokens": 2391,
+        "completion_tokens": 31,
         "retries": 0
       },
       "refusal_correct": true

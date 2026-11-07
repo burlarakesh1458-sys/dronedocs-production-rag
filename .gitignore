@@ -19,3 +19,4 @@ models/
 reports/eval_*.json
 reports/checkpoint_*.jsonl
 .DS_Store
+reports/offline_gate_*.json

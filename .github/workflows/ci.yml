@@ -5,6 +5,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      live_eval:
+        description: "Also run the live golden eval against Groq (needs the GROQ_API_KEY secret; free tier is rate-limited)"
+        type: boolean
+        default: false
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -25,19 +30,15 @@ jobs:
       - run: pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -r requirements-dev.txt && pip install -e . --no-deps
       - run: ruff check src tests scripts eval ui
+      - run: ruff format --check src tests scripts eval ui
       - run: python scripts/verify_golden.py
       - run: pytest -q
 
-  eval:
-    name: golden-set eval (quality gate)
+  gate:
+    name: quality gate (offline replay, no API key)
     needs: test
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    # Fork PRs don't get secrets; the gate needs a real LLM endpoint.
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-    env:
-      LLM_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      LLM_BASE_URL: https://api.groq.com/openai/v1
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -50,23 +51,54 @@ jobs:
       - run: pip install -r requirements-dev.txt && pip install -e . --no-deps
       - name: Build index
         run: python -m dronedocs.cli ingest
-      - name: Run golden eval (fails the build below thresholds in configs/settings.yaml)
-        run: python -m dronedocs.cli eval --no-ragas
-      - name: Upload eval report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: eval-report
-          path: reports/latest.json
+      - name: Offline gate (real retrieval + rerank + evidence gate + citation validation, recorded answers)
+        run: python -m dronedocs.cli eval --offline
       - name: Job summary
         if: always()
         run: |
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
-          import json
-          r = json.load(open("reports/latest.json"))
-          s = r["summary"]
-          print(f"### DroneDocs eval — {'PASSED' if r['passed'] else 'FAILED'} (prompt {r['prompt_version']}, {r['generator_model']})")
-          print("| metric | value | threshold |\n|---|---|---|")
-          for k, t in r["thresholds"].items():
-              print(f"| {k} | {s.get(k)} | {t} |")
+          import json, pathlib
+          p = pathlib.Path("reports/offline_gate.json")
+          if p.exists():
+              r = json.loads(p.read_text()); s = r["summary"]
+              print(f"### DroneDocs offline gate: {'PASSED' if r['passed'] else 'FAILED'} (n={s['n_items']}, recorded {r['generator_model']})")
+              print("| metric | value | floor |\n|---|---|---|")
+              for k, t in r["thresholds"].items():
+                  print(f"| {k} | {s.get(k)} | {t} |")
           PY
+
+  docker:
+    name: docker build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t dronedocs:ci .
+
+  live-eval:
+    name: live golden eval (manual, Groq)
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.live_eval }}
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      LLM_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      LLM_BASE_URL: https://api.groq.com/openai/v1
+      DRONEDOCS__LLM__MIN_INTERVAL_S: "4"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ hashFiles('configs/settings.yaml') }}
+      - run: pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -r requirements-dev.txt && pip install -e . --no-deps
+      - run: python -m dronedocs.cli ingest
+      - run: python -m dronedocs.cli eval --no-ragas
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: reports/latest.json

@@ -59,3 +59,54 @@ def test_cache_roundtrip(tmp_path):
 def test_parse_json_loose():
     assert parse_json_loose('```json\n{"a": 1}\n```') == {"a": 1}
     assert parse_json_loose('Sure: {"score": 0.5} done') == {"score": 0.5}
+
+
+def test_daily_quota_stops_fast(monkeypatch):
+    monkeypatch.setattr(llm_mod.time, "sleep", lambda s: None)
+
+    def handler(req):
+        return httpx.Response(429, headers={"retry-after": "900"}, json={"error": "tokens per day"})
+
+    with pytest.raises(LLMError, match="quota exhausted"):
+        _client(handler, max_retry_after_s=120).chat([{"role": "user", "content": "x"}])
+
+
+def test_pacing_waits_for_token_window(monkeypatch):
+    slept: list[float] = []
+    monkeypatch.setattr(llm_mod.time, "sleep", lambda s: slept.append(s))
+
+    def handler(req):
+        h = {"x-ratelimit-remaining-tokens": "10", "x-ratelimit-reset-tokens": "7.5s"}
+        return httpx.Response(200, headers=h, json=OK)
+
+    c = _client(handler)
+    c.chat([{"role": "user", "content": "x"}])
+    c.chat([{"role": "user", "content": "y"}])
+    assert slept and 6.0 < slept[0] <= 7.75  # second call waited for the window instead of eating a 429
+
+
+def test_parse_duration():
+    assert llm_mod._parse_duration("577ms") == pytest.approx(0.577)
+    assert llm_mod._parse_duration("2m59.56s") == pytest.approx(179.56)
+    assert llm_mod._parse_duration("") == 0.0
+
+
+def test_replay_client(tmp_path):
+    from dronedocs.llm import ReplayClient
+
+    rec = tmp_path / "r.jsonl"
+    rec.write_text(
+        '{"question": "What is a nano drone?", "raw_answer": "Up to 250 g [a#c1].", "model": "m1"}\n'
+        '{"question": "What is a nano drone? Explain RTL.", "raw_answer": "Longer [a#c2].", "model": "m1"}\n'
+    )
+    rc = ReplayClient(rec)
+    msgs = [
+        {"role": "system", "content": "s"},
+        {"role": "user", "content": "CONTEXT ...\nQuestion: What is a nano drone?"},
+    ]
+    r = rc.chat(msgs)
+    assert r.text == "Up to 250 g [a#c1]." and r.cached and rc.model == "m1"
+    r2 = rc.chat([{"role": "user", "content": "Question: what is a nano drone?  explain RTL."}])
+    assert r2.text == "Longer [a#c2]."  # longest matching question wins
+    with pytest.raises(LLMError, match="not recorded"):
+        rc.chat([{"role": "user", "content": "Question: unrelated"}])
