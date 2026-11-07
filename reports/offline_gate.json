@@ -1,0 +1,2551 @@
+{
+  "timestamp": "2026-11-07T05:54:30+00:00",
+  "generator_model": "openai/gpt-oss-20b",
+  "mode": "offline-replay",
+  "judge_model": null,
+  "prompt_version": "answer-v1.2",
+  "judge_prompt_version": "judge-v1.1",
+  "retrieval": {
+    "mode": "hybrid",
+    "vector_k": 20,
+    "bm25_k": 20,
+    "rrf_k": 60,
+    "fused_k": 20
+  },
+  "rerank": {
+    "provider": "cross_encoder",
+    "model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "top_n": 4
+  },
+  "chunking": {
+    "tokenizer": "cl100k_base",
+    "chunk_tokens": 550,
+    "overlap_tokens": 100,
+    "min_chunk_tokens": 40,
+    "drop_non_latin_lines": true
+  },
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "thresholds": {
+    "context_recall": 0.85,
+    "context_precision": 0.6,
+    "citation_accuracy": 0.8,
+    "citation_validity": 0.95,
+    "refusal_correctness": 0.8,
+    "refusal_rate_unanswerable": 1.0,
+    "fused_recall@20": 0.95
+  },
+  "gate_failures": [],
+  "passed": true,
+  "partial": false,
+  "summary": {
+    "n_items": 60,
+    "n_answerable": 52,
+    "n_unanswerable": 8,
+    "n_not_evaluated_quota": 0,
+    "not_evaluated_ids": [],
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "context_recall": 0.8846,
+    "context_precision": 0.7089,
+    "citation_accuracy": 0.8537,
+    "citation_validity": 1.0,
+    "refusal_correctness": 0.8167,
+    "answer_rate_answerable": 0.7885,
+    "refusal_rate_unanswerable": 1.0,
+    "fused_recall@20": 1.0,
+    "mrr@top_n": 0.7276,
+    "errors": 0,
+    "latency": {
+      "retrieve": {
+        "p50_ms": 305.7,
+        "p95_ms": 917.0
+      },
+      "rerank": {
+        "p50_ms": 4547.6,
+        "p95_ms": 8800.3
+      },
+      "generate": {
+        "p50_ms": 0.4,
+        "p95_ms": 4.9
+      },
+      "total": {
+        "p50_ms": 4945.6,
+        "p95_ms": 9928.6
+      }
+    },
+    "tokens": {
+      "prompt": 129021,
+      "completion": 4952,
+      "judge": 0
+    },
+    "mean_prompt_tokens": 2345.8,
+    "wall_time_s": 1144.9
+  },
+  "ragas": null,
+  "rows": [
+    {
+      "id": "dr-01",
+      "question": "What is the maximum all-up weight of a nano unmanned aircraft system under the Drone Rules 2021?",
+      "answerable": true,
+      "answer": "The maximum all\u2011up weight of a nano unmanned aircraft system is **250\u202fgrams or less**[drone_rules_2021.pdf#c005].",
+      "raw_answer": "The maximum all\u2011up weight of a nano unmanned aircraft system is **250\u202fgrams or less**\u3010drone_rules_2021.pdf#c005\u3011.",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c005",
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c005"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c005"
+      ],
+      "best_rerank_score": 5.2918,
+      "latency_s": {
+        "retrieve": 7.16373184400004,
+        "rerank": 10.078065530999993,
+        "evidence_gate": 1.8825000097422162e-05,
+        "generate": 0.0054967809999197925,
+        "validate_citations": 0.005337259000043559,
+        "total": 17.467515521999985
+      },
+      "usage": {
+        "prompt_tokens": 2416,
+        "completion_tokens": 54,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.9166666666666666,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-02",
+      "question": "What weight range defines a micro drone under the Drone Rules 2021?",
+      "answerable": true,
+      "answer": "Micro unmanned aircraft system: weighing more than 250\u202fgrams, but less than or equal to 2\u202fkilograms. [pib_drone_rules_backgrounder.pdf#c000]",
+      "raw_answer": "Micro unmanned aircraft system: weighing more than 250\u202fgrams, but less than or equal to 2\u202fkilograms. [pib_drone_rules_backgrounder.pdf#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c005"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "best_rerank_score": 4.2072,
+      "latency_s": {
+        "retrieve": 0.43940187599991987,
+        "rerank": 7.777520512000137,
+        "evidence_gate": 6.835000021965243e-06,
+        "generate": 0.0003800819999923988,
+        "validate_citations": 0.0001459430000068096,
+        "total": 8.22234334399991
+      },
+      "usage": {
+        "prompt_tokens": 2346,
+        "completion_tokens": 62,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5833333333333333,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-03",
+      "question": "Which weight class is a 30 kg drone in under the Drone Rules 2021?",
+      "answerable": true,
+      "answer": "The 30\u202fkg drone falls under the **Medium unmanned aircraft system** class, which is defined as weighing more than 25\u202fkg but less than or equal to 150\u202fkg. [pib_drone_rules_backgrounder.pdf#c000]",
+      "raw_answer": "The 30\u202fkg drone falls under the **Medium unmanned aircraft system** class, which is defined as weighing more than 25\u202fkg but less than or equal to 150\u202fkg. [pib_drone_rules_backgrounder.pdf#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "drone_rules_2021.pdf#c000"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "best_rerank_score": 4.0512,
+      "latency_s": {
+        "retrieve": 0.2990340639998976,
+        "rerank": 5.281995702000131,
+        "evidence_gate": 7.569999979750719e-06,
+        "generate": 0.00042036800005007535,
+        "validate_citations": 0.00016289499990307377,
+        "total": 5.586030787000027
+      },
+      "usage": {
+        "prompt_tokens": 2396,
+        "completion_tokens": 90,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5833333333333333,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-04",
+      "question": "Above what weight is an unmanned aircraft system classified as large?",
+      "answerable": true,
+      "answer": "Above 150\u202fkilograms. [drone_rules_2021.pdf#c005]",
+      "raw_answer": "Above 150\u202fkilograms. [drone_rules_2021.pdf#c005]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c005",
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "drone_rules_2021.pdf#c001",
+        "drone_rules_2021.pdf#c003"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c005"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c005"
+      ],
+      "best_rerank_score": 6.9569,
+      "latency_s": {
+        "retrieve": 0.32229168600019875,
+        "rerank": 7.734612580000203,
+        "evidence_gate": 8.710999964023358e-06,
+        "generate": 0.00047485499999311287,
+        "validate_citations": 0.0002155479999146337,
+        "total": 8.06597573299996
+      },
+      "usage": {
+        "prompt_tokens": 2410,
+        "completion_tokens": 48,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-05",
+      "question": "Up to what height does the green zone extend under the Drone Rules 2021?",
+      "answerable": true,
+      "answer": "The green zone extends up to a vertical distance of 400\u202ffeet (120\u202fmetres) above the land areas or territorial waters of India, and up to 200\u202ffeet (60\u202fmetres) above the area located between 8\u202fkm and 12\u202fkm from the perimeter of an operational airport. [drone_rules_2021.pdf#c002]",
+      "raw_answer": "The green zone extends up to a vertical distance of 400\u202ffeet (120\u202fmetres) above the land areas or territorial waters of India, and up to 200\u202ffeet (60\u202fmetres) above the area located between 8\u202fkm and 12\u202fkm from the perimeter of an operational airport. [drone_rules_2021.pdf#c002]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c006",
+        "pib_drone_rules_backgrounder.pdf#c005",
+        "drone_rules_2021.pdf#c002",
+        "pib_drone_rules_backgrounder.pdf#c004"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c002"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c002"
+      ],
+      "best_rerank_score": 4.76,
+      "latency_s": {
+        "retrieve": 0.2965949089998503,
+        "rerank": 7.037410345000126,
+        "evidence_gate": 3.3769999845389975e-06,
+        "generate": 0.00041450699995948526,
+        "validate_citations": 0.00014929999997548293,
+        "total": 7.338745606999964
+      },
+      "usage": {
+        "prompt_tokens": 2481,
+        "completion_tokens": 102,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.3333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-06",
+      "question": "Do I need prior permission to fly a drone in a green zone?",
+      "answerable": true,
+      "answer": "No, a drone can be flown in a green zone without prior permission, subject to the general rule that the drone must be registered and the pilot must verify the zone on the digital sky platform before flight. [pib_drone_rules_backgrounder.pdf#c006]",
+      "raw_answer": "No, a drone can be flown in a green zone without prior permission, subject to the general rule that the drone must be registered and the pilot must verify the zone on the digital sky platform before flight. [pib_drone_rules_backgrounder.pdf#c006]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "drone_rules_2021.pdf#c009",
+        "pib_drone_rules_backgrounder.pdf#c006",
+        "pib_drone_rules_backgrounder.pdf#c005"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c006"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c006"
+      ],
+      "best_rerank_score": 2.8655,
+      "latency_s": {
+        "retrieve": 0.5134372649999932,
+        "rerank": 6.742184254999984,
+        "evidence_gate": 1.1685000117722666e-05,
+        "generate": 0.005349093999939214,
+        "validate_citations": 0.00026567999998405867,
+        "total": 7.277424968999867
+      },
+      "usage": {
+        "prompt_tokens": 2374,
+        "completion_tokens": 75,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-07",
+      "question": "What is the minimum and maximum age to be eligible for a remote pilot licence?",
+      "answerable": true,
+      "answer": "The minimum age is eighteen years and the maximum age is sixty\u2011five years [drone_rules_2021.pdf#c011].",
+      "raw_answer": "The minimum age is eighteen years and the maximum age is sixty\u2011five years [drone_rules_2021.pdf#c011].",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c011",
+        "drone_rules_2021.pdf#c012",
+        "drone_rules_2021.pdf#c013",
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c011"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c011"
+      ],
+      "best_rerank_score": 6.5764,
+      "latency_s": {
+        "retrieve": 0.3557924250001179,
+        "rerank": 4.833526898999935,
+        "evidence_gate": 4.494999984672177e-06,
+        "generate": 0.000353008000047339,
+        "validate_citations": 0.0001359269999738899,
+        "total": 5.198742859000049
+      },
+      "usage": {
+        "prompt_tokens": 2300,
+        "completion_tokens": 59,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-08",
+      "question": "What educational qualification is required to get a remote pilot licence under the Drone Rules 2021?",
+      "answerable": true,
+      "answer": "An individual must have passed the class\u2011tenth examination or its equivalent from a recognised board to be eligible for a remote pilot licence under the Drone Rules 2021. [pib_drone_rules_backgrounder.pdf#c004]",
+      "raw_answer": "An individual must have passed the class\u2011tenth examination or its equivalent from a recognised board to be eligible for a remote pilot licence under the Drone Rules 2021. [pib_drone_rules_backgrounder.pdf#c004]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "drone_rules_2021.pdf#c012",
+        "drone_rules_2021.pdf#c013"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004"
+      ],
+      "best_rerank_score": 5.4215,
+      "latency_s": {
+        "retrieve": 0.34553183699995316,
+        "rerank": 5.452190377000079,
+        "evidence_gate": 4.696999894804321e-06,
+        "generate": 0.0029791370000111783,
+        "validate_citations": 0.00026259100013703573,
+        "total": 5.810614205999855
+      },
+      "usage": {
+        "prompt_tokens": 2373,
+        "completion_tokens": 67,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "fused_recall": 1.0,
+      "mrr": 0.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-09",
+      "question": "How long is a remote pilot licence valid?",
+      "answerable": true,
+      "answer": "A remote pilot licence is valid for a period of ten years, unless it is suspended or cancelled. [drone_rules_2021.pdf#c011]",
+      "raw_answer": "A remote pilot licence is valid for a period of ten years, unless it is suspended or cancelled. [drone_rules_2021.pdf#c011]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "drone_amendment_rules_2022.pdf#c001",
+        "drone_rules_2021.pdf#c011",
+        "pib_drone_rules_backgrounder.pdf#c004"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c011"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c011"
+      ],
+      "best_rerank_score": 3.059,
+      "latency_s": {
+        "retrieve": 0.40747291399998176,
+        "rerank": 9.926216322000073,
+        "evidence_gate": 7.023000080152997e-06,
+        "generate": 0.00040814200019667624,
+        "validate_citations": 7.733600000392471e-05,
+        "total": 10.341830049999999
+      },
+      "usage": {
+        "prompt_tokens": 2388,
+        "completion_tokens": 68,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.8055555555555555,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-10",
+      "question": "Which drones are exempt from needing a remote pilot licence?",
+      "answerable": true,
+      "answer": "Nano unmanned aircraft systems and micro unmanned aircraft systems used for non\u2011commercial purposes are exempt from needing a remote pilot licence. Additionally, research and development entities operating drones in their own or rented premises located in a green zone are exempt from the requirement of a remote pilot licence. [drone_rules_2021.pdf#c012] [pib_drone_rules_backgrounder.pdf#c003]",
+      "raw_answer": "Nano unmanned aircraft systems and micro unmanned aircraft systems used for non\u2011commercial purposes are exempt from needing a remote pilot licence. Additionally, research and development entities operating drones in their own or rented premises located in a green zone are exempt from the requirement of a remote pilot licence. [drone_rules_2021.pdf#c012] [pib_drone_rules_backgrounder.pdf#c003]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "drone_rules_2021.pdf#c012",
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c012",
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c012",
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "best_rerank_score": 4.393,
+      "latency_s": {
+        "retrieve": 1.4821211200001017,
+        "rerank": 8.394512705999887,
+        "evidence_gate": 1.7018000107782427e-05,
+        "generate": 0.0005813239999952202,
+        "validate_citations": 0.00028328700000201934,
+        "total": 9.90689579900004
+      },
+      "usage": {
+        "prompt_tokens": 2217,
+        "completion_tokens": 170,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.6388888888888888,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-11",
+      "question": "Within how many hours must a drone accident be reported, and to whom?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "",
+      "refused": true,
+      "refusal_reason": "refused_by_gate",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c004",
+        "drone_amendment_rules_2022.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "drone_rules_2021.pdf#c009"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -4.985,
+      "latency_s": {
+        "retrieve": 0.9104761860000963,
+        "rerank": 10.54656874400007,
+        "evidence_gate": 4.827999873668887e-06,
+        "refuse": 0.0,
+        "total": 11.487336064000147
+      },
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 0.25,
+      "fused_recall": 1.0,
+      "mrr": 0.25,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "dr-12",
+      "question": "What is the maximum penalty for contravening the Drone Rules 2021?",
+      "answerable": true,
+      "answer": "The maximum penalty for contravening the Drone Rules, 2021 is INR\u202fOne\u202flakh. [pib_drone_rules_backgrounder.pdf#c005]",
+      "raw_answer": "The maximum penalty for contravening the Drone Rules, 2021 is INR\u202fOne\u202flakh. [pib_drone_rules_backgrounder.pdf#c005]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c005",
+        "drone_amendment_rules_2023.pdf#c001",
+        "drone_rules_2021.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c005"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c005"
+      ],
+      "best_rerank_score": 4.971,
+      "latency_s": {
+        "retrieve": 0.6270288810001148,
+        "rerank": 4.571693998000001,
+        "evidence_gate": 4.270000090400572e-06,
+        "generate": 0.0003286339999704069,
+        "validate_citations": 0.00013545100000555976,
+        "total": 5.212533508000206
+      },
+      "usage": {
+        "prompt_tokens": 2191,
+        "completion_tokens": 71,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "fused_recall": 1.0,
+      "mrr": 0.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-13",
+      "question": "What is the fee for issuance or renewal of a remote pilot licence?",
+      "answerable": true,
+      "answer": "The fee for issuance or renewal of a remote pilot licence is \u20b9100. [drone_rules_2021.pdf#c015]",
+      "raw_answer": "The fee for issuance or renewal of a remote pilot licence is \u20b9100. [drone_rules_2021.pdf#c015]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c015",
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "drone_rules_2021.pdf#c013",
+        "drone_rules_2021.pdf#c012"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c015"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c015"
+      ],
+      "best_rerank_score": 4.7583,
+      "latency_s": {
+        "retrieve": 0.3859325490000174,
+        "rerank": 4.3688736200001586,
+        "evidence_gate": 3.3520000215503387e-06,
+        "generate": 0.00037893100011388015,
+        "validate_citations": 9.846900002230541e-05,
+        "total": 4.766052676000072
+      },
+      "usage": {
+        "prompt_tokens": 2297,
+        "completion_tokens": 82,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-14",
+      "question": "What fee is charged for authorising a remote pilot training organisation?",
+      "answerable": true,
+      "answer": "The fee charged for authorising a remote pilot training organisation is \u20b91,000. [drone_rules_2021.pdf#c015]",
+      "raw_answer": "The fee charged for authorising a remote pilot training organisation is \u20b91,000. [drone_rules_2021.pdf#c015]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c015",
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "drone_rules_2021.pdf#c013",
+        "drone_rules_2021.pdf#c012"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c015"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c015"
+      ],
+      "best_rerank_score": 5.2399,
+      "latency_s": {
+        "retrieve": 0.18860557399989375,
+        "rerank": 4.095730610999908,
+        "evidence_gate": 3.890000016326667e-06,
+        "generate": 0.00037599900019813504,
+        "validate_citations": 0.00013906300000599003,
+        "total": 4.297957982000071
+      },
+      "usage": {
+        "prompt_tokens": 2296,
+        "completion_tokens": 74,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-15",
+      "question": "Which drones do not need a type certificate to be operated?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "Drones that are exempt from type certification are:  \n- Nano unmanned aircraft systems (\u2264\u202f250\u202fg) and model remotely\u2011piloted aircraft systems that are used for research or recreation purposes.  \n- Unmanned aircraft systems operated by research and development entities, educational institutions, recognised start\u2011ups, authorised testing entities, or manufacturers with a GST\u2011ID, when used in their own or rented premises in a green zone.  \n\n[drone_rules_2021.pdf#c005] [pib_drone_rules_backgrounder.pdf#c003]",
+      "refused": true,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "drone_rules_2021.pdf#c005"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c005",
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c005",
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "best_rerank_score": 3.2384,
+      "latency_s": {
+        "retrieve": 0.33754677599995375,
+        "rerank": 4.2883228600001075,
+        "evidence_gate": 0.02375420899988967,
+        "generate": 0.00036543100009112095,
+        "validate_citations": 0.00016860300002008444,
+        "total": 4.658387355999821
+      },
+      "usage": {
+        "prompt_tokens": 2362,
+        "completion_tokens": 199,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "dr-16",
+      "question": "How long can a temporary red zone be declared for, and who can declare it?",
+      "answerable": true,
+      "answer": "A temporary red zone may be declared for a period not exceeding **ninety\u2011six hours** at a time [drone_rules_2021.pdf#c009]. It can be declared by an officer **not below the rank of Superintendent of Police or his equivalent** [drone_rules_2021.pdf#c009].",
+      "raw_answer": "A temporary red zone may be declared for a period not exceeding **ninety\u2011six hours** at a time [drone_rules_2021.pdf#c009]. It can be declared by an officer **not below the rank of Superintendent of Police or his equivalent** [drone_rules_2021.pdf#c009].",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c010",
+        "drone_rules_2021.pdf#c009",
+        "pib_drone_rules_backgrounder.pdf#c005",
+        "drone_rules_2021.pdf#c002"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c009"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c009"
+      ],
+      "best_rerank_score": 0.9052,
+      "latency_s": {
+        "retrieve": 0.4771850289998838,
+        "rerank": 6.668808135000063,
+        "evidence_gate": 7.922000122562167e-06,
+        "generate": 0.00044223299983059405,
+        "validate_citations": 0.00017732700007400126,
+        "total": 7.161452376999932
+      },
+      "usage": {
+        "prompt_tokens": 2556,
+        "completion_tokens": 118,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-17",
+      "question": "Within how many days must the new serial number be updated on Digital Sky after replacing a drone's flight control module?",
+      "answerable": true,
+      "answer": "Within seven days of replacing the flight control module (or before operating the drone again) the new serial number must be updated on the Digital Sky Platform. [drone_rules_2021.pdf#c007]",
+      "raw_answer": "Within seven days of replacing the flight control module (or before operating the drone again) the new serial number must be updated on the Digital Sky Platform. [drone_rules_2021.pdf#c007]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c008",
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c010",
+        "drone_rules_2021.pdf#c007"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c007"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c007"
+      ],
+      "best_rerank_score": 2.6249,
+      "latency_s": {
+        "retrieve": 0.29643696399989494,
+        "rerank": 4.189964473999908,
+        "evidence_gate": 7.175000064307824e-06,
+        "generate": 0.0005482309998114943,
+        "validate_citations": 0.00020888899985038734,
+        "total": 4.497355732999949
+      },
+      "usage": {
+        "prompt_tokens": 2471,
+        "completion_tokens": 79,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.75,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-18",
+      "question": "What is the maximum all-up weight of a model remotely piloted aircraft system?",
+      "answerable": true,
+      "answer": "The maximum all\u2011up weight of a model remotely piloted aircraft system is **25\u202fkg** (or less) [drone_rules_2021.pdf#c003].",
+      "raw_answer": "The maximum all\u2011up weight of a model remotely piloted aircraft system is **25\u202fkg** (or less) [drone_rules_2021.pdf#c003].",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c005",
+        "drone_rules_2021.pdf#c003",
+        "drone_rules_2021.pdf#c017",
+        "drone_rules_2021.pdf#c011"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c003"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c003"
+      ],
+      "best_rerank_score": 7.084,
+      "latency_s": {
+        "retrieve": 0.2891727659998651,
+        "rerank": 4.029970826000181,
+        "evidence_gate": 3.483000000414904e-06,
+        "generate": 0.0004368190000150207,
+        "validate_citations": 0.008241508999844882,
+        "total": 4.3325073790001625
+      },
+      "usage": {
+        "prompt_tokens": 2564,
+        "completion_tokens": 83,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-19",
+      "question": "Which form is used to apply for a type certificate?",
+      "answerable": true,
+      "answer": "The form used to apply for a type certificate is **FORM\u202fD\u20111**. [drone_rules_2021.pdf#c017]",
+      "raw_answer": "The form used to apply for a type certificate is **FORM\u202fD\u20111**. [drone_rules_2021.pdf#c017]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c017",
+        "drone_rules_2021.pdf#c019",
+        "drone_rules_2021.pdf#c007",
+        "drone_amendment_rules_2022.pdf#c002"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c017"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c017"
+      ],
+      "best_rerank_score": 5.0013,
+      "latency_s": {
+        "retrieve": 0.1838216259998262,
+        "rerank": 4.408042596000087,
+        "evidence_gate": 3.2509999527974287e-06,
+        "generate": 0.0003338159999657364,
+        "validate_citations": 0.00011750799990295491,
+        "total": 4.601894453999876
+      },
+      "usage": {
+        "prompt_tokens": 2095,
+        "completion_tokens": 89,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "fused_recall": 1.0,
+      "mrr": 0.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-20",
+      "question": "Do the Drone Rules 2021 apply to drones used by the Indian armed forces?",
+      "answerable": true,
+      "answer": "Yes. The Drone Rules, 2021 apply to all unmanned aircraft systems that are owned, possessed, leased, operated, transferred or maintained in India, and to all that are registered or being operated in or over India, with no exemption for the armed forces[drone_rules_2021.pdf#c000].",
+      "raw_answer": "Yes. The Drone Rules, 2021 apply to all unmanned aircraft systems that are owned, possessed, leased, operated, transferred or maintained in India, and to all that are registered or being operated in or over India, with no exemption for the armed forces\u3010drone_rules_2021.pdf#c000\u3011.",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "drone_amendment_rules_2023.pdf#c001",
+        "drone_rules_2021.pdf#c000"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c000"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c000"
+      ],
+      "best_rerank_score": 5.261,
+      "latency_s": {
+        "retrieve": 0.31245422699998926,
+        "rerank": 4.3564853320001475,
+        "evidence_gate": 7.990999847606872e-06,
+        "generate": 0.0007401739999295387,
+        "validate_citations": 0.0010359939999489143,
+        "total": 4.683965123000007
+      },
+      "usage": {
+        "prompt_tokens": 2199,
+        "completion_tokens": 174,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.25,
+      "fused_recall": 1.0,
+      "mrr": 0.25,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-21",
+      "question": "Which mandatory safety features may the Central Government notify for drones?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "drone_amendment_rules_2023.pdf#c001",
+        "pib_drone_rules_backgrounder.pdf#c005",
+        "drone_rules_2021.pdf#c009",
+        "pib_drone_rules_backgrounder.pdf#c008"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -0.8525,
+      "latency_s": {
+        "retrieve": 0.29597455899988745,
+        "rerank": 5.354442949000031,
+        "evidence_gate": 8.179999895219225e-06,
+        "generate": 0.0003716080000231159,
+        "validate_citations": 8.264699999926961e-05,
+        "total": 5.655010272000027
+      },
+      "usage": {
+        "prompt_tokens": 2252,
+        "completion_tokens": 37,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "dr-22",
+      "question": "Do research and development entities need a remote pilot licence to test drones?",
+      "answerable": true,
+      "answer": "No. Research and development entities are exempt from needing a remote pilot licence for operating unmanned aircraft systems for research, development and testing purposes. [drone_rules_2021.pdf#c013]",
+      "raw_answer": "No. Research and development entities are exempt from needing a remote pilot licence for operating unmanned aircraft systems for research, development and testing purposes. [drone_rules_2021.pdf#c013]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "drone_rules_2021.pdf#c013",
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "pib_drone_rules_backgrounder.pdf#c007"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c013"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c013"
+      ],
+      "best_rerank_score": 3.5364,
+      "latency_s": {
+        "retrieve": 0.22937288699995406,
+        "rerank": 5.338482823000049,
+        "evidence_gate": 4.2249998841725755e-06,
+        "generate": 0.00038933199994062306,
+        "validate_citations": 0.000137634000111575,
+        "total": 5.581648121999933
+      },
+      "usage": {
+        "prompt_tokens": 2350,
+        "completion_tokens": 119,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "dr-23",
+      "question": "Is third party insurance mandatory for nano drones?",
+      "answerable": true,
+      "answer": "No, third\u2011party insurance is not mandatory for nano unmanned aircraft systems. [drone_rules_2021.pdf#c014]",
+      "raw_answer": "No, third\u2011party insurance is not mandatory for nano unmanned aircraft systems. [drone_rules_2021.pdf#c014]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_rules_2021.pdf#c014",
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c010",
+        "pib_drone_rules_backgrounder.pdf#c008"
+      ],
+      "cited_ids": [
+        "drone_rules_2021.pdf#c014"
+      ],
+      "raw_cited_ids": [
+        "drone_rules_2021.pdf#c014"
+      ],
+      "best_rerank_score": 3.7197,
+      "latency_s": {
+        "retrieve": 0.859076363000213,
+        "rerank": 5.332347877000075,
+        "evidence_gate": 3.45799981005257e-06,
+        "generate": 0.00035697499993148085,
+        "validate_citations": 0.0001282009998249123,
+        "total": 6.208393569999998
+      },
+      "usage": {
+        "prompt_tokens": 2399,
+        "completion_tokens": 78,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "am-01",
+      "question": "What did the Drone (Amendment) Rules 2022 replace the remote pilot licence with?",
+      "answerable": true,
+      "answer": "The Drone (Amendment) Rules, 2022 replaced the term \u201cremote pilot licence\u201d with \u201cremote pilot certificate\u201d in the definition of Remote Pilot Certificate, which is the certificate issued by an authorised remote pilot training organisation to any individual under rule\u202f34. [drone_amendment_rules_2022.pdf#c000]",
+      "raw_answer": "The Drone (Amendment) Rules, 2022 replaced the term \u201cremote pilot licence\u201d with \u201cremote pilot certificate\u201d in the definition of Remote Pilot Certificate, which is the certificate issued by an authorised remote pilot training organisation to any individual under rule\u202f34. [drone_amendment_rules_2022.pdf#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_amendment_rules_2023.pdf#c001",
+        "drone_amendment_rules_2022.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "pib_drone_rules_backgrounder.pdf#c000"
+      ],
+      "cited_ids": [
+        "drone_amendment_rules_2022.pdf#c000"
+      ],
+      "raw_cited_ids": [
+        "drone_amendment_rules_2022.pdf#c000"
+      ],
+      "best_rerank_score": 3.5069,
+      "latency_s": {
+        "retrieve": 0.4354428689998713,
+        "rerank": 7.233498875000123,
+        "evidence_gate": 4.613000101016951e-06,
+        "generate": 0.0002987380000831763,
+        "validate_citations": 0.0001606079999874055,
+        "total": 7.6818424499999765
+      },
+      "usage": {
+        "prompt_tokens": 2073,
+        "completion_tokens": 157,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "am-02",
+      "question": "When were the Drone (Amendment) Rules 2022 notified?",
+      "answerable": true,
+      "answer": "The Drone (Amendment) Rules,\u202f2022 were notified on 11\u202fFebruary\u202f2022[drone_amendment_rules_2022.pdf#c000].",
+      "raw_answer": "The Drone (Amendment) Rules,\u202f2022 were notified on 11\u202fFebruary\u202f2022\u3010drone_amendment_rules_2022.pdf#c000\u3011.",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_amendment_rules_2022.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "drone_amendment_rules_2023.pdf#c001",
+        "drone_rules_2021.pdf#c000"
+      ],
+      "cited_ids": [
+        "drone_amendment_rules_2022.pdf#c000"
+      ],
+      "raw_cited_ids": [
+        "drone_amendment_rules_2022.pdf#c000"
+      ],
+      "best_rerank_score": 7.4776,
+      "latency_s": {
+        "retrieve": 0.22516540299989174,
+        "rerank": 4.091684974000145,
+        "evidence_gate": 3.526999989844626e-06,
+        "generate": 0.0002547110000250541,
+        "validate_citations": 0.00010735600017142133,
+        "total": 4.32075564999991
+      },
+      "usage": {
+        "prompt_tokens": 2103,
+        "completion_tokens": 102,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "am-03",
+      "question": "What ID documents does the Drone (Amendment) Rules 2023 allow in Form D-4 instead of only a passport?",
+      "answerable": true,
+      "answer": "The 2023 amendment allows the following documents in Form\u202fD\u20114 in place of a passport: an Indian passport number, a voter\u2019s ID card, a ration card or a driving licence as proof of identity and address. [drone_amendment_rules_2023.pdf#c001]",
+      "raw_answer": "The 2023 amendment allows the following documents in Form\u202fD\u20114 in place of a passport: an Indian passport number, a voter\u2019s ID card, a ration card or a driving licence as proof of identity and address. [drone_amendment_rules_2023.pdf#c001]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "drone_amendment_rules_2023.pdf#c001",
+        "drone_amendment_rules_2022.pdf#c000",
+        "drone_rules_2021.pdf#c008",
+        "drone_rules_2021.pdf#c017"
+      ],
+      "cited_ids": [
+        "drone_amendment_rules_2023.pdf#c001"
+      ],
+      "raw_cited_ids": [
+        "drone_amendment_rules_2023.pdf#c001"
+      ],
+      "best_rerank_score": 4.5105,
+      "latency_s": {
+        "retrieve": 0.24965843399991172,
+        "rerank": 3.7403109310000673,
+        "evidence_gate": 3.403999926376855e-06,
+        "generate": 0.0003310429999601183,
+        "validate_citations": 0.0001444980000542273,
+        "total": 4.013229069999852
+      },
+      "usage": {
+        "prompt_tokens": 2155,
+        "completion_tokens": 136,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "pib-01",
+      "question": "By how much did the Drone Rules 2021 reduce the number of forms and fee types?",
+      "answerable": true,
+      "answer": "The Drone Rules 2021 cut the number of forms from 25 to 5 and reduced the types of fees from 72 to 4. [pib_drone_rules_backgrounder.pdf#c003]",
+      "raw_answer": "The Drone Rules 2021 cut the number of forms from 25 to 5 and reduced the types of fees from 72 to 4. [pib_drone_rules_backgrounder.pdf#c003]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "drone_amendment_rules_2023.pdf#c001",
+        "pib_drone_rules_backgrounder.pdf#c009",
+        "pib_drone_rules_backgrounder.pdf#c008"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003"
+      ],
+      "best_rerank_score": 3.8409,
+      "latency_s": {
+        "retrieve": 0.4717613909999727,
+        "rerank": 3.3834830690000217,
+        "evidence_gate": 3.975000026912312e-06,
+        "generate": 0.0003376680001565546,
+        "validate_citations": 9.366200015392678e-05,
+        "total": 3.8617394259999855
+      },
+      "usage": {
+        "prompt_tokens": 2147,
+        "completion_tokens": 88,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "pib-02",
+      "question": "How far from the airport perimeter does the yellow zone extend after the 2021 rules?",
+      "answerable": true,
+      "answer": "The yellow zone extends up to 12\u202fkm from the perimeter of an operational airport. [pib_drone_rules_backgrounder.pdf#c006] [pib_drone_rules_backgrounder.pdf#c005]",
+      "raw_answer": "The yellow zone extends up to 12\u202fkm from the perimeter of an operational airport. [pib_drone_rules_backgrounder.pdf#c006] [pib_drone_rules_backgrounder.pdf#c005]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c006",
+        "pib_drone_rules_backgrounder.pdf#c005",
+        "drone_rules_2021.pdf#c010",
+        "drone_rules_2021.pdf#c009"
+      ],
+      "cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c006",
+        "pib_drone_rules_backgrounder.pdf#c005"
+      ],
+      "raw_cited_ids": [
+        "pib_drone_rules_backgrounder.pdf#c006",
+        "pib_drone_rules_backgrounder.pdf#c005"
+      ],
+      "best_rerank_score": 2.169,
+      "latency_s": {
+        "retrieve": 0.10399241899995104,
+        "rerank": 2.5719931159999305,
+        "evidence_gate": 4.640000042854808e-06,
+        "generate": 0.0003941200000099343,
+        "validate_citations": 0.00015781100000822335,
+        "total": 2.68481718299995
+      },
+      "usage": {
+        "prompt_tokens": 2531,
+        "completion_tokens": 71,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "fused_recall": 1.0,
+      "mrr": 0.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-01",
+      "question": "How do you arm an ArduPilot copter using the sticks?",
+      "answerable": true,
+      "answer": "Arm the motors by holding the throttle down and the rudder (yaw) right for 5\u202fseconds (do not hold the rudder right for more than 15\u202fseconds to avoid AutoTrim) [ardupilot_copter_arming_the_motors.html#c000].",
+      "raw_answer": "Arm the motors by holding the throttle down and the rudder (yaw) right for 5\u202fseconds (do not hold the rudder right for more than 15\u202fseconds to avoid AutoTrim) [ardupilot_copter_arming_the_motors.html#c000].",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_arming_the_motors.html#c000",
+        "ardupilot_copter_loiter-mode.html#c000",
+        "ardupilot_copter_arming_the_motors.html#c001",
+        "px4_advanced_config_prearm_arm_disarm.md#c001"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_arming_the_motors.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_arming_the_motors.html#c000"
+      ],
+      "best_rerank_score": 1.5003,
+      "latency_s": {
+        "retrieve": 0.33714354099993216,
+        "rerank": 3.758816105999813,
+        "evidence_gate": 3.911000021616928e-06,
+        "generate": 0.00026912299995274225,
+        "validate_citations": 0.00017642599982536922,
+        "total": 4.12103623500002
+      },
+      "usage": {
+        "prompt_tokens": 2154,
+        "completion_tokens": 113,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-02",
+      "question": "In ArduPilot Copter, what happens if the throttle is left at minimum for 15 seconds after arming?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_arming_the_motors.html#c001",
+        "ardupilot_copter_altholdmode.html#c001",
+        "px4_advanced_config_prearm_arm_disarm.md#c001",
+        "ardupilot_copter_altholdmode.html#c002"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 0.7095,
+      "latency_s": {
+        "retrieve": 0.627291434999961,
+        "rerank": 4.434388497999862,
+        "evidence_gate": 3.974000037487713e-06,
+        "generate": 0.0002309110000169312,
+        "validate_citations": 4.448300001058669e-05,
+        "total": 5.0659848899999815
+      },
+      "usage": {
+        "prompt_tokens": 2125,
+        "completion_tokens": 45,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "ap-03",
+      "question": "What is the default BATT_LOW_VOLT battery failsafe voltage in ArduPilot Copter and how long must voltage stay below it?",
+      "answerable": true,
+      "answer": "The default low\u2011battery voltage threshold is **10.5\u202fV** and the voltage must remain below this value for **10\u202fseconds** before the failsafe triggers. [ardupilot_copter_failsafe-battery.html#c000]",
+      "raw_answer": "The default low\u2011battery voltage threshold is **10.5\u202fV** and the voltage must remain below this value for **10\u202fseconds** before the failsafe triggers. [ardupilot_copter_failsafe-battery.html#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_failsafe-battery.html#c000",
+        "ardupilot_copter_failsafe-battery.html#c002",
+        "ardupilot_copter_gcs-failsafe.html#c000",
+        "px4_config_battery.md#c002"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_failsafe-battery.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_failsafe-battery.html#c000"
+      ],
+      "best_rerank_score": 5.2544,
+      "latency_s": {
+        "retrieve": 0.2758987810000235,
+        "rerank": 4.523462176999828,
+        "evidence_gate": 3.2599998576188227e-06,
+        "generate": 0.0002621090000047843,
+        "validate_citations": 0.00012600399986695265,
+        "total": 4.803629419999879
+      },
+      "usage": {
+        "prompt_tokens": 2399,
+        "completion_tokens": 91,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-04",
+      "question": "What does BATT_FS_LOW_ACT = 2 do in ArduPilot?",
+      "answerable": true,
+      "answer": "BATT_FS_LOW_ACT\u202f=\u202f2 configures the battery failsafe to switch the vehicle into Return\u2011to\u2011Launch (RTL) mode if the battery voltage or capacity falls below the configured thresholds. This action is taken after the low\u2011battery alarm (buzzer, LEDs, HUD message) is triggered. [ardupilot_copter_failsafe-battery.html#c000]",
+      "raw_answer": "BATT_FS_LOW_ACT\u202f=\u202f2 configures the battery failsafe to switch the vehicle into Return\u2011to\u2011Launch (RTL) mode if the battery voltage or capacity falls below the configured thresholds. This action is taken after the low\u2011battery alarm (buzzer, LEDs, HUD message) is triggered. [ardupilot_copter_failsafe-battery.html#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_failsafe-battery.html#c002",
+        "ardupilot_copter_failsafe-battery.html#c000",
+        "ardupilot_copter_smartrtl-mode.html#c001",
+        "px4_config_safety.md#c011"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_failsafe-battery.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_failsafe-battery.html#c000"
+      ],
+      "best_rerank_score": 4.1355,
+      "latency_s": {
+        "retrieve": 0.16581693199987058,
+        "rerank": 2.6831892679999783,
+        "evidence_gate": 4.235999995216844e-06,
+        "generate": 0.00024041999995461083,
+        "validate_citations": 0.0001568469999710942,
+        "total": 2.853037054999959
+      },
+      "usage": {
+        "prompt_tokens": 2285,
+        "completion_tokens": 104,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-05",
+      "question": "What is the default RC_FS_TIMEOUT for ArduPilot radio failsafe?",
+      "answerable": true,
+      "answer": "The default RC_FS_TIMEOUT for ArduPilot radio failsafe is 1\u202fsecond. [ardupilot_copter_radio-failsafe.html#c000]",
+      "raw_answer": "The default RC_FS_TIMEOUT for ArduPilot radio failsafe is 1\u202fsecond. [ardupilot_copter_radio-failsafe.html#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_gcs-failsafe.html#c000",
+        "ardupilot_copter_radio-failsafe.html#c000",
+        "px4_config_safety.md#c005",
+        "ardupilot_copter_radio-failsafe.html#c002"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_radio-failsafe.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_radio-failsafe.html#c000"
+      ],
+      "best_rerank_score": 4.7924,
+      "latency_s": {
+        "retrieve": 0.23329880300002515,
+        "rerank": 3.2800743359998705,
+        "evidence_gate": 8.968999964054092e-06,
+        "generate": 0.0003211030000329629,
+        "validate_citations": 0.00017685399984657124,
+        "total": 3.518137045000003
+      },
+      "usage": {
+        "prompt_tokens": 2546,
+        "completion_tokens": 74,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-06",
+      "question": "What does FS_THR_ENABLE value 1 do in ArduPilot Copter?",
+      "answerable": true,
+      "answer": "FS_THR_ENABLE value\u202f1 enables the radio failsafe to switch the copter to RTL mode when the receiver loses signal (or the throttle stick is fully down and the transmitter is off). This is the \u201cEnabled Always RTL\u201d option. [ardupilot_copter_radio-failsafe.html#c002]",
+      "raw_answer": "FS_THR_ENABLE value\u202f1 enables the radio failsafe to switch the copter to RTL mode when the receiver loses signal (or the throttle stick is fully down and the transmitter is off). This is the \u201cEnabled Always RTL\u201d option. [ardupilot_copter_radio-failsafe.html#c002]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_radio-failsafe.html#c002",
+        "ardupilot_copter_gcs-failsafe.html#c001",
+        "ardupilot_copter_common-geofencing-landing-page.html#c000",
+        "ardupilot_copter_land-mode.html#c000"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_radio-failsafe.html#c002"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_radio-failsafe.html#c002"
+      ],
+      "best_rerank_score": 4.8967,
+      "latency_s": {
+        "retrieve": 0.148368519999849,
+        "rerank": 6.003858481000179,
+        "evidence_gate": 8.681000053911703e-06,
+        "generate": 0.0008175400000709487,
+        "validate_citations": 0.0008807889998934115,
+        "total": 6.165309247999858
+      },
+      "usage": {
+        "prompt_tokens": 2616,
+        "completion_tokens": 91,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-07",
+      "question": "What is the default RTL_ALT_M return altitude in ArduPilot Copter?",
+      "answerable": true,
+      "answer": "The default RTL_ALT_M return altitude in ArduPilot Copter is **15\u202fmeters**[ardupilot_copter_rtl-mode.html#c002][ardupilot_copter_rtl-mode.html#c000]",
+      "raw_answer": "The default RTL_ALT_M return altitude in ArduPilot Copter is **15\u202fmeters**\u3010ardupilot_copter_rtl-mode.html#c002\u3011\u3010ardupilot_copter_rtl-mode.html#c000\u3011",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_rtl-mode.html#c002",
+        "ardupilot_copter_rtl-mode.html#c000",
+        "px4_flight_modes_return.md#c011",
+        "px4_flight_modes_return.md#c009"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c002",
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c002",
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "best_rerank_score": 7.9192,
+      "latency_s": {
+        "retrieve": 0.20153849099983745,
+        "rerank": 3.316665768000121,
+        "evidence_gate": 3.912000011041528e-06,
+        "generate": 0.0002957980000246607,
+        "validate_citations": 0.00015892999999778112,
+        "total": 3.5229891460001
+      },
+      "usage": {
+        "prompt_tokens": 2562,
+        "completion_tokens": 113,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-08",
+      "question": "What does RTL_CONE_SLOPE control and what is its default?",
+      "answerable": true,
+      "answer": "RTL_CONE_SLOPE defines the slope of an inverted cone above the return point that limits how high the vehicle climbs when entering RTL; a lower value gives a wider cone and less climb, a higher value allows more climb. The default slope is 3\u202f[ardupilot_copter_rtl-mode.html#c000].",
+      "raw_answer": "RTL_CONE_SLOPE defines the slope of an inverted cone above the return point that limits how high the vehicle climbs when entering RTL; a lower value gives a wider cone and less climb, a higher value allows more climb. The default slope is 3\u202f[ardupilot_copter_rtl-mode.html#c000].",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_rtl-mode.html#c003",
+        "ardupilot_copter_rtl-mode.html#c000",
+        "px4_flight_modes_return.md#c011",
+        "ardupilot_copter_rtl-mode.html#c001"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_rtl-mode.html#c000"
+      ],
+      "best_rerank_score": 5.7561,
+      "latency_s": {
+        "retrieve": 0.39895295600013014,
+        "rerank": 3.988161312000102,
+        "evidence_gate": 3.803000026891823e-06,
+        "generate": 0.004675662999943597,
+        "validate_citations": 0.00019447699992269918,
+        "total": 4.396073669000089
+      },
+      "usage": {
+        "prompt_tokens": 2243,
+        "completion_tokens": 121,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-09",
+      "question": "What is the default final descent speed LAND_SPD_MS in ArduPilot Land mode?",
+      "answerable": true,
+      "answer": "The default final descent speed in ArduPilot Land mode is **50\u202fcm/s** (LAND_SPD_MS defaults to 50\u202fcm/s)[ardupilot_copter_land-mode.html#c000].",
+      "raw_answer": "The default final descent speed in ArduPilot Land mode is **50\u202fcm/s** (LAND_SPD_MS defaults to 50\u202fcm/s)\u3010ardupilot_copter_land-mode.html#c000\u3011.",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_land-mode.html#c000",
+        "ardupilot_copter_land-mode.html#c001",
+        "px4_flight_modes_mc_land.md#c001",
+        "px4_flight_modes_mc_land.md#c000"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_land-mode.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_land-mode.html#c000"
+      ],
+      "best_rerank_score": 4.997,
+      "latency_s": {
+        "retrieve": 0.7585062410000774,
+        "rerank": 8.74104542100008,
+        "evidence_gate": 7.040000127744861e-06,
+        "generate": 0.00033157000007122406,
+        "validate_citations": 0.0001309460001266416,
+        "total": 9.532488151999814
+      },
+      "usage": {
+        "prompt_tokens": 2213,
+        "completion_tokens": 121,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-10",
+      "question": "How many built-in flight modes does ArduPilot Copter have?",
+      "answerable": true,
+      "answer": "ArduPilot Copter has 25 built\u2011in flight modes. [ardupilot_copter_flight-modes.html#c000]",
+      "raw_answer": "ArduPilot Copter has 25 built\u2011in flight modes. [ardupilot_copter_flight-modes.html#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_flight-modes.html#c000",
+        "ardupilot_copter_common-geofencing-landing-page.html#c000",
+        "ardupilot_copter_altholdmode.html#c000",
+        "ardupilot_copter_rtl-mode.html#c002"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_flight-modes.html#c000"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_flight-modes.html#c000"
+      ],
+      "best_rerank_score": 8.0734,
+      "latency_s": {
+        "retrieve": 1.0400821360001373,
+        "rerank": 4.000216035999983,
+        "evidence_gate": 4.07900006393902e-06,
+        "generate": 0.00038119600003483356,
+        "validate_citations": 0.00020893400005661533,
+        "total": 5.0625031439999475
+      },
+      "usage": {
+        "prompt_tokens": 2565,
+        "completion_tokens": 61,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "ap-11",
+      "question": "Which ArduPilot copter flight modes do not require position information?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "The following Copter flight modes do **not** require valid position information before take\u2011off:  \nAcro, AirMode, Alt Hold, Stabilize, Sport, SysID, Turtle, Land, Throw, ZigZag, and Simple/Super Simple.  \n[ardupilot_copter_flight-modes.html#c002]",
+      "refused": true,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_flight-modes.html#c000",
+        "ardupilot_copter_flight-modes.html#c002",
+        "ardupilot_copter_arming_the_motors.html#c001",
+        "ardupilot_copter_auto-mode.html#c000"
+      ],
+      "cited_ids": [
+        "ardupilot_copter_flight-modes.html#c002"
+      ],
+      "raw_cited_ids": [
+        "ardupilot_copter_flight-modes.html#c002"
+      ],
+      "best_rerank_score": 5.0127,
+      "latency_s": {
+        "retrieve": 0.12266694400000233,
+        "rerank": 2.66261352000015,
+        "evidence_gate": 3.7280001379258465e-06,
+        "generate": 0.00039463400003114657,
+        "validate_citations": 0.0001299519999520271,
+        "total": 2.791009291999899
+      },
+      "usage": {
+        "prompt_tokens": 2181,
+        "completion_tokens": 98,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "px-01",
+      "question": "What are the default PX4 arming and disarming stick gestures?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "The default PX4 stick gestures are:\n\n- **Arming:** Move the throttle stick to its minimum and the yaw stick to its maximum, then hold for 1\u202fsecond.  \n- **Disarming:** Move the throttle stick to its minimum and the yaw stick to its minimum, then hold for 1\u202fsecond.  \n\n[px4_advanced_config_prearm_arm_disarm.md#c001]",
+      "refused": true,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c001",
+        "px4_advanced_config_prearm_arm_disarm.md#c002",
+        "px4_advanced_config_prearm_arm_disarm.md#c000",
+        "px4_advanced_config_prearm_arm_disarm.md#c003"
+      ],
+      "cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c001"
+      ],
+      "raw_cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c001"
+      ],
+      "best_rerank_score": 4.4244,
+      "latency_s": {
+        "retrieve": 0.16559954800004562,
+        "rerank": 8.250884995000206,
+        "evidence_gate": 3.4610000057000434e-06,
+        "generate": 0.000285753000071054,
+        "validate_citations": 0.00015968399998200766,
+        "total": 8.420777098000144
+      },
+      "usage": {
+        "prompt_tokens": 2457,
+        "completion_tokens": 129,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "px-02",
+      "question": "What is the default PX4 auto-disarm timeout after landing (COM_DISARM_LAND)?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c018",
+        "px4_advanced_config_prearm_arm_disarm.md#c003",
+        "px4_flight_modes_mc_land.md#c000",
+        "px4_config_safety.md#c005"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 4.3228,
+      "latency_s": {
+        "retrieve": 0.6077883770001336,
+        "rerank": 3.0432569499998863,
+        "evidence_gate": 4.284999931769562e-06,
+        "generate": 0.00031139299994720204,
+        "validate_citations": 4.335200014793372e-05,
+        "total": 3.6889815249999174
+      },
+      "usage": {
+        "prompt_tokens": 2592,
+        "completion_tokens": 106,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "px-03",
+      "question": "How long does PX4 wait for takeoff before auto-disarming (COM_DISARM_PRFLT)?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c003",
+        "px4_config_safety.md#c018",
+        "px4_flight_modes_mc_mission.md#c001",
+        "ardupilot_copter_arming_the_motors.html#c001"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 3.8999,
+      "latency_s": {
+        "retrieve": 0.24032620299999508,
+        "rerank": 4.580773766999982,
+        "evidence_gate": 4.509000063990243e-06,
+        "generate": 0.00022476999993159552,
+        "validate_citations": 4.3179000158488634e-05,
+        "total": 4.8249137020000035
+      },
+      "usage": {
+        "prompt_tokens": 2312,
+        "completion_tokens": 36,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "px-04",
+      "question": "At what rate does PX4 run arming checks internally?",
+      "answerable": true,
+      "answer": "PX4 runs arming checks internally at 10\u202fHz. [px4_advanced_config_prearm_arm_disarm.md#c000]",
+      "raw_answer": "PX4 runs arming checks internally at 10\u202fHz. [px4_advanced_config_prearm_arm_disarm.md#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c004",
+        "px4_advanced_config_prearm_arm_disarm.md#c003",
+        "px4_advanced_config_prearm_arm_disarm.md#c000",
+        "ardupilot_copter_arming_the_motors.html#c000"
+      ],
+      "cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c000"
+      ],
+      "raw_cited_ids": [
+        "px4_advanced_config_prearm_arm_disarm.md#c000"
+      ],
+      "best_rerank_score": -0.3134,
+      "latency_s": {
+        "retrieve": 0.28604293300008976,
+        "rerank": 6.6182347379999555,
+        "evidence_gate": 3.525000010995427e-06,
+        "generate": 0.0003070770001158962,
+        "validate_citations": 0.00011503900009302015,
+        "total": 6.908587632000035
+      },
+      "usage": {
+        "prompt_tokens": 2492,
+        "completion_tokens": 49,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 0.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-05",
+      "question": "In PX4, if several failsafes trigger at once, which action is taken?",
+      "answerable": true,
+      "answer": "If multiple failsafes trigger simultaneously, PX4 takes the most severe action among them. For example, if RC loss is set to Return mode and GCS link loss to Land, the Land action is executed. [px4_config_safety.md#c001]",
+      "raw_answer": "If multiple failsafes trigger simultaneously, PX4 takes the most severe action among them. For example, if RC loss is set to Return mode and GCS link loss to Land, the Land action is executed. [px4_config_safety.md#c001]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c000",
+        "px4_config_safety.md#c010",
+        "px4_config_safety.md#c001",
+        "px4_advanced_config_flight_termination.md#c000"
+      ],
+      "cited_ids": [
+        "px4_config_safety.md#c001"
+      ],
+      "raw_cited_ids": [
+        "px4_config_safety.md#c001"
+      ],
+      "best_rerank_score": 4.5564,
+      "latency_s": {
+        "retrieve": 0.1903660730001775,
+        "rerank": 3.5174261649999607,
+        "evidence_gate": 2.9560001166828442e-06,
+        "generate": 0.00028262899991204904,
+        "validate_citations": 9.635199990043475e-05,
+        "total": 3.744095523999931
+      },
+      "usage": {
+        "prompt_tokens": 2436,
+        "completion_tokens": 83,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-06",
+      "question": "Which PX4 parameter sets the geofence breach action, and what options does it have?",
+      "answerable": true,
+      "answer": "The PX4 parameter that sets the geofence breach action is **GF_ACTION**. Its possible values are: **None, Warning, Hold mode, Return mode, Terminate, Land**.[px4_config_safety.md#c007]",
+      "raw_answer": "The PX4 parameter that sets the geofence breach action is **GF_ACTION**.  \nIts possible values are: **None, Warning, Hold mode, Return mode, Terminate, Land**.\u3010px4_config_safety.md#c007\u3011",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c007",
+        "px4_flying_geofence.md#c001",
+        "px4_flying_geofence.md#c000",
+        "px4_advanced_config_flight_termination.md#c000"
+      ],
+      "cited_ids": [
+        "px4_config_safety.md#c007"
+      ],
+      "raw_cited_ids": [
+        "px4_config_safety.md#c007"
+      ],
+      "best_rerank_score": 5.5177,
+      "latency_s": {
+        "retrieve": 0.3674966519999998,
+        "rerank": 3.176269417999947,
+        "evidence_gate": 3.547000005710288e-06,
+        "generate": 0.00024278299997604336,
+        "validate_citations": 0.00011821900011455,
+        "total": 3.5491747739999937
+      },
+      "usage": {
+        "prompt_tokens": 2060,
+        "completion_tokens": 86,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-07",
+      "question": "Which COM_LOW_BAT_ACT option does PX4 recommend for the battery failsafe?",
+      "answerable": true,
+      "answer": "PX4 recommends using **option\u202f3** (`Distance\u2011aware return, Critical level return, Emergency level land`) for the battery failsafe, as it provides a controlled landing when the battery is depleted. [px4_config_safety.md#c002]",
+      "raw_answer": "PX4 recommends using **option\u202f3** (`Distance\u2011aware return, Critical level return, Emergency level land`) for the battery failsafe, as it provides a controlled landing when the battery is depleted. [px4_config_safety.md#c002]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_failsafe-battery.html#c002",
+        "px4_config_safety.md#c002",
+        "ardupilot_copter_failsafe-battery.html#c000",
+        "px4_config_safety.md#c000"
+      ],
+      "cited_ids": [
+        "px4_config_safety.md#c002"
+      ],
+      "raw_cited_ids": [
+        "px4_config_safety.md#c002"
+      ],
+      "best_rerank_score": 3.7045,
+      "latency_s": {
+        "retrieve": 0.28797769499988135,
+        "rerank": 3.0275195960000474,
+        "evidence_gate": 4.526999873633031e-06,
+        "generate": 0.00025363599979755236,
+        "validate_citations": 0.00013860699982615188,
+        "total": 3.323685548000185
+      },
+      "usage": {
+        "prompt_tokens": 2443,
+        "completion_tokens": 222,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-08",
+      "question": "What does the PX4 maximum flight time failsafe COM_FLT_TIME_MAX do?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c000",
+        "px4_config_safety.md#c015",
+        "px4_flying_geofence.md#c000",
+        "px4_config_safety_simulation.md#c000"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 0.3452,
+      "latency_s": {
+        "retrieve": 0.16023608199998307,
+        "rerank": 6.261709395999787,
+        "evidence_gate": 3.947000095649855e-06,
+        "generate": 0.0002625070001158747,
+        "validate_citations": 4.934100002174091e-05,
+        "total": 6.425910498000121
+      },
+      "usage": {
+        "prompt_tokens": 2196,
+        "completion_tokens": 26,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "fused_recall": 1.0,
+      "mrr": 0.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "px-09",
+      "question": "In PX4 Position mode, above what throttle stick position does the vehicle take off when landed?",
+      "answerable": true,
+      "answer": "In PX4 Position mode, the vehicle will take off when the throttle stick is raised above **62.5\u202f%** of the full range from bottom. [px4_flight_modes_mc_position.md#c001]",
+      "raw_answer": "In PX4 Position mode, the vehicle will take off when the throttle stick is raised above **62.5\u202f%** of the full range from bottom. [px4_flight_modes_mc_position.md#c001]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_mc_position.md#c001",
+        "px4_flight_modes_mc_position.md#c000",
+        "ardupilot_copter_altholdmode.html#c001",
+        "px4_flight_modes_mc_takeoff.md#c000"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_mc_position.md#c001"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_mc_position.md#c001"
+      ],
+      "best_rerank_score": 4.3431,
+      "latency_s": {
+        "retrieve": 0.2371478099998967,
+        "rerank": 2.967514496999911,
+        "evidence_gate": 3.918999937013723e-06,
+        "generate": 0.001132354999981544,
+        "validate_citations": 0.00015520399983870448,
+        "total": 3.2146074849999877
+      },
+      "usage": {
+        "prompt_tokens": 2368,
+        "completion_tokens": 80,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-10",
+      "question": "What are the default maximum ascent and descent velocities in PX4 Position mode?",
+      "answerable": true,
+      "answer": "The default maximum ascent velocity is **3\u202fm/s** and the default maximum descent velocity is **1\u202fm/s** in PX4 Position mode. [px4_flight_modes_mc_position.md#c002]",
+      "raw_answer": "The default maximum ascent velocity is **3\u202fm/s** and the default maximum descent velocity is **1\u202fm/s** in PX4 Position mode. [px4_flight_modes_mc_position.md#c002]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_mc_altitude.md#c001",
+        "px4_flight_modes_mc_position.md#c002",
+        "px4_flight_modes_mc_position.md#c000",
+        "px4_flight_modes_mc_mission.md#c004"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_mc_position.md#c002"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_mc_position.md#c002"
+      ],
+      "best_rerank_score": 2.1279,
+      "latency_s": {
+        "retrieve": 0.542188718000034,
+        "rerank": 4.57622749899997,
+        "evidence_gate": 3.7510001220653066e-06,
+        "generate": 0.00021761299990430416,
+        "validate_citations": 0.0001427390000117157,
+        "total": 5.127315301999943
+      },
+      "usage": {
+        "prompt_tokens": 2162,
+        "completion_tokens": 99,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "fused_recall": 1.0,
+      "mrr": 0.5,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-11",
+      "question": "Which parameter sets the descent rate in PX4 multicopter Land mode?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_mc_mission.md#c004",
+        "px4_config_safety.md#c012",
+        "ardupilot_copter_land-mode.html#c000"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 3.5823,
+      "latency_s": {
+        "retrieve": 0.4264801849999458,
+        "rerank": 4.602051360000132,
+        "evidence_gate": 7.050000021990854e-06,
+        "generate": 0.0003215350000118633,
+        "validate_citations": 5.506499996954517e-05,
+        "total": 5.032759807000048
+      },
+      "usage": {
+        "prompt_tokens": 2486,
+        "completion_tokens": 62,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "fused_recall": 1.0,
+      "mrr": 0.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "px-12",
+      "question": "What position estimate does PX4 Return mode require?",
+      "answerable": true,
+      "answer": "PX4 Return mode requires a global 3\u2011D position estimate (from GPS or inferred from a local position). [px4_flight_modes_return.md#c000]",
+      "raw_answer": "PX4 Return mode requires a global 3\u2011D position estimate (from GPS or inferred from a local position). [px4_flight_modes_return.md#c000]",
+      "refused": false,
+      "refusal_reason": null,
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_return.md#c000",
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_return.md#c001",
+        "px4_config_battery.md#c000"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_return.md#c000"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_return.md#c000"
+      ],
+      "best_rerank_score": 2.9226,
+      "latency_s": {
+        "retrieve": 0.1226592680000067,
+        "rerank": 4.745033969000133,
+        "evidence_gate": 3.355999979248736e-06,
+        "generate": 0.00028029999998580024,
+        "validate_citations": 0.00013873200009584252,
+        "total": 4.875428100000136
+      },
+      "usage": {
+        "prompt_tokens": 2431,
+        "completion_tokens": 71,
+        "retries": 0
+      },
+      "refusal_correct": true,
+      "context_recall": 1.0,
+      "context_precision": 0.8333333333333333,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "citation_accuracy": 1.0,
+      "citation_validity": 1.0
+    },
+    {
+      "id": "px-13",
+      "question": "What is the default PX4 Return mode behaviour for a multicopter?",
+      "answerable": true,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "The default PX4 Return mode for a multicopter is **RTL_TYPE\u202f=\u202f0** (Home/rally point return). In this mode the vehicle:  \n- Ascends to a safe minimum return altitude,  \n- Flies to the closest home or rally point using a geofence\u2011aware horizontal path when possible,  \n- On arrival descends to the configured descent altitude and waits for a configurable time (default 0\u202fs, so it lands immediately), and  \n- Lands (or waits if landing parameters differ) with the vehicle in MC mode.  \n\n[px4_flight_modes_return.md#c002]",
+      "refused": true,
+      "refusal_reason": "refused_uncited",
+      "error": null,
+      "context_ids": [
+        "px4_flight_modes_return.md#c000",
+        "px4_flight_modes_return.md#c001",
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_return.md#c002"
+      ],
+      "cited_ids": [
+        "px4_flight_modes_return.md#c002"
+      ],
+      "raw_cited_ids": [
+        "px4_flight_modes_return.md#c002"
+      ],
+      "best_rerank_score": 4.0784,
+      "latency_s": {
+        "retrieve": 0.6226322469999559,
+        "rerank": 4.642929155000047,
+        "evidence_gate": 1.647099998081103e-05,
+        "generate": 0.00669044300002497,
+        "validate_citations": 0.00023361300009128172,
+        "total": 5.34571525299998
+      },
+      "usage": {
+        "prompt_tokens": 2388,
+        "completion_tokens": 184,
+        "retries": 0
+      },
+      "refusal_correct": false,
+      "context_recall": 1.0,
+      "context_precision": 0.9166666666666666,
+      "fused_recall": 1.0,
+      "mrr": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "id": "na-01",
+      "question": "What is the drone registration fee in the United States under FAA Part 107?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c003",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "drone_rules_2021.pdf#c008"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -2.102,
+      "latency_s": {
+        "retrieve": 0.37123681999992186,
+        "rerank": 4.8146147899999505,
+        "evidence_gate": 7.845000027373317e-06,
+        "generate": 0.00038835399982417584,
+        "validate_citations": 7.158700009313179e-05,
+        "total": 5.195659692999925
+      },
+      "usage": {
+        "prompt_tokens": 2365,
+        "completion_tokens": 37,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-02",
+      "question": "What is the maximum takeoff weight of the DJI Mavic 3 Pro?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "",
+      "refused": true,
+      "refusal_reason": "refused_by_gate",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "drone_rules_2021.pdf#c001",
+        "px4_flight_modes_mc_mission.md#c004",
+        "px4_flight_modes_mc_mission.md#c007"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -8.3582,
+      "latency_s": {
+        "retrieve": 0.27206693800007997,
+        "rerank": 5.351693188999889,
+        "evidence_gate": 5.652000027112081e-06,
+        "refuse": 0.0,
+        "total": 5.6315290000000005
+      },
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-03",
+      "question": "How do I tune the PID gains of a Betaflight racing quad?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "",
+      "refused": true,
+      "refusal_reason": "refused_by_gate",
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_altholdmode.html#c001",
+        "px4_config_safety.md#c012",
+        "px4_config_safety.md#c013",
+        "ardupilot_copter_radio-failsafe.html#c005"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -5.603,
+      "latency_s": {
+        "retrieve": 0.19238230899986775,
+        "rerank": 3.658269476999976,
+        "evidence_gate": 4.413999931784929e-06,
+        "refuse": 0.0,
+        "total": 3.8630850839999766
+      },
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-04",
+      "question": "What is the price of a DGCA remote pilot training course in Hyderabad?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "drone_rules_2021.pdf#c013",
+        "drone_rules_2021.pdf#c020",
+        "drone_rules_2021.pdf#c012"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -2.1864,
+      "latency_s": {
+        "retrieve": 0.17015046300002723,
+        "rerank": 3.3171320740000283,
+        "evidence_gate": 1.3001000070289592e-05,
+        "generate": 0.001812132999930327,
+        "validate_citations": 8.856899989950762e-05,
+        "total": 3.5047560600000907
+      },
+      "usage": {
+        "prompt_tokens": 2398,
+        "completion_tokens": 33,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-05",
+      "question": "Which EU drone class is C2 under EASA regulations?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "",
+      "refused": true,
+      "refusal_reason": "refused_by_gate",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c008",
+        "pib_drone_rules_backgrounder.pdf#c007",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c004"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -5.3743,
+      "latency_s": {
+        "retrieve": 0.23898435000000973,
+        "rerank": 4.268190276000041,
+        "evidence_gate": 4.045999958179891e-06,
+        "refuse": 0.0,
+        "total": 4.510118455000111
+      },
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-06",
+      "question": "What is the default MPC_XY_CRUISE speed in PX4 missions?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "px4_config_safety.md#c007",
+        "px4_flight_modes_mc_mission.md#c002",
+        "px4_flight_modes_return.md#c001",
+        "px4_flight_modes_mc_mission.md#c001"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 0.247,
+      "latency_s": {
+        "retrieve": 0.37766528599991034,
+        "rerank": 4.626436456999954,
+        "evidence_gate": 4.289000116841635e-06,
+        "generate": 0.0002922300000136602,
+        "validate_citations": 5.1536999990275945e-05,
+        "total": 5.015709292999873
+      },
+      "usage": {
+        "prompt_tokens": 2413,
+        "completion_tokens": 34,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-07",
+      "question": "How many drone pilots were certified in India in 2025?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "INSUFFICIENT_EVIDENCE",
+      "refused": true,
+      "refusal_reason": "refused_by_model",
+      "error": null,
+      "context_ids": [
+        "pib_drone_rules_backgrounder.pdf#c004",
+        "pib_drone_rules_backgrounder.pdf#c000",
+        "pib_drone_rules_backgrounder.pdf#c001",
+        "drone_rules_2021.pdf#c000"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": 2.5322,
+      "latency_s": {
+        "retrieve": 0.314709349000168,
+        "rerank": 3.8671124640000016,
+        "evidence_gate": 3.4279998999409145e-06,
+        "generate": 0.000293158999966181,
+        "validate_citations": 5.787700001746998e-05,
+        "total": 4.1907378120001795
+      },
+      "usage": {
+        "prompt_tokens": 2391,
+        "completion_tokens": 31,
+        "retries": 0
+      },
+      "refusal_correct": true
+    },
+    {
+      "id": "na-08",
+      "question": "What LiPo cell count does ArduPilot recommend for a 450 mm quadcopter?",
+      "answerable": false,
+      "answer": "I can't answer that from the indexed documents: the retrieved passages do not contain enough evidence to support an answer.",
+      "raw_answer": "",
+      "refused": true,
+      "refusal_reason": "refused_by_gate",
+      "error": null,
+      "context_ids": [
+        "ardupilot_copter_failsafe-battery.html#c000",
+        "px4_config_battery.md#c002",
+        "ardupilot_copter_arming_the_motors.html#c000",
+        "px4_config_battery.md#c004"
+      ],
+      "cited_ids": [],
+      "raw_cited_ids": [],
+      "best_rerank_score": -10.3308,
+      "latency_s": {
+        "retrieve": 0.18263855800000783,
+        "rerank": 3.635337613999809,
+        "evidence_gate": 3.3900000744324643e-06,
+        "refuse": 0.0,
+        "total": 3.820643517999997
+      },
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "retries": 0
+      },
+      "refusal_correct": true
+    }
+  ]
+}

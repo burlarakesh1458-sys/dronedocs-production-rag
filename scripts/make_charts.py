@@ -29,7 +29,7 @@ def eval_chart(rep: dict) -> None:
     part = f", {skipped} not evaluated (provider quota)" if skipped else ""
     ax.set_title(
         f"Golden-set eval: n={s['n_items']} ({s['n_answerable']} answerable){part}\n"
-        f"gen {rep['generator_model']}, judge {rep['judge_model']}  (dotted = CI threshold)",
+        f"gen {rep['generator_model']}, judge {rep['judge_model']}  (dotted = live-eval threshold)",
         fontsize=10,
     )
     plt.xticks(rotation=15, fontsize=9)

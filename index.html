@@ -25,6 +25,18 @@ footer{border-top:1px solid var(--line);color:var(--mut);padding:20px 0;font-siz
 id="dronedocs-rag-a-cited-question-answering-system-for-drone-rules-and-autopilot-docs">DroneDocs
 RAG: a cited question-answering system for drone rules and autopilot
 docs</h1>
+<!-- links -->
+
+<p><a
+href="https://github.com/burlarakesh1458-sys/dronedocs-production-rag/actions/workflows/ci.yml"><img
+src="https://github.com/burlarakesh1458-sys/dronedocs-production-rag/actions/workflows/ci.yml/badge.svg"
+alt="CI" /></a> <strong>Live demo:</strong> <a
+href="http://rakeshburla.dpdns.org/dronedocs-production-rag/">http://rakeshburla.dpdns.org/dronedocs-production-rag/</a>
+· <strong>Code:</strong> <a
+href="https://github.com/burlarakesh1458-sys/dronedocs-production-rag">https://github.com/burlarakesh1458-sys/dronedocs-production-rag</a>
+· <strong>Resume bullets:</strong> <a
+href="https://github.com/burlarakesh1458-sys/dronedocs-production-rag/blob/main/RESUME_BULLETS.md">RESUME_BULLETS.md</a> ·
+<strong>License:</strong> MIT</p>
 <p>DroneDocs answers questions about <strong>Indian drone
 regulations</strong> (Drone Rules 2021 and the 2022/2023 amendments) and
 the <strong>ArduPilot / PX4 autopilot documentation</strong>. Every
@@ -79,8 +91,9 @@ speed of a DJI Mini 4 Pro?").</li>
 <p>Every graph node reports to optional observers
 (<code>on_stage</code>), so tracing can be added without this package
 depending on a tracing vendor. The observability layer in the sibling
-repo (<code>03-rag-observability</code>) is built on exactly that
-hook.</p>
+repo (<a
+href="https://github.com/burlarakesh1458-sys/rag-observability-gating"><code>rag-observability-gating</code></a>)
+is built on exactly that hook.</p>
 <h2 id="features">Features</h2>
 <table>
 <thead>
@@ -137,8 +150,11 @@ every result and report.</td>
 <tr class="even">
 <td>LLM client</td>
 <td>Any OpenAI-compatible endpoint (Groq by default, OpenAI, vLLM,
-Ollama). Backs off on 429/5xx and honours <code>retry-after</code>.
-Stops fast when the daily quota is gone. Records token usage.</td>
+Ollama). Backs off on 429/5xx and honours <code>retry-after</code>,
+paces itself from the <code>x-ratelimit-*</code> headers, keeps an
+optional sqlite response cache, stops fast when the daily quota is gone,
+records token usage. <code>ReplayClient</code> serves recorded answers
+for the offline gate.</td>
 </tr>
 <tr class="odd">
 <td>Evaluation</td>
@@ -151,10 +167,10 @@ Optional Ragas cross-check.</td>
 </tr>
 <tr class="even">
 <td>CI</td>
-<td>GitHub Actions: ruff + golden-set verification + offline unit tests
-on every PR; then the golden eval, which fails the build below the
-thresholds in <code>configs/settings.yaml</code> and posts a metrics
-table to the job summary.</td>
+<td>GitHub Actions on every push/PR: ruff (lint + format), golden-set
+verification, offline unit tests, the offline replay gate over all 60
+golden items (no API key) and a Docker build. The live golden eval
+against Groq runs on manual dispatch.</td>
 </tr>
 </tbody>
 </table>
@@ -224,57 +240,64 @@ can be overridden with an env var
 <td>faithfulness 0.80, answer_relevancy 0.75, context_recall 0.70,
 context_precision 0.55, citation_accuracy 0.90, refusal_correctness
 0.80</td>
-<td>CI gate</td>
+<td>live quality bar (<code>dronedocs eval</code>)</td>
+</tr>
+<tr class="even">
+<td><code>eval.offline_thresholds</code></td>
+<td>see the offline gate table below</td>
+<td>CI gate (<code>dronedocs eval --offline</code>)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="results">Results</h2>
-<h3 id="golden-set-evaluation-reportslatestjson">Golden-set evaluation
-(<code>reports/latest.json</code>)</h3>
+<h3 id="golden-set-evaluation-reportslatestjson-live">Golden-set
+evaluation (<code>reports/latest.json</code>, live)</h3>
 <p>Generator <code>openai/gpt-oss-20b</code>, judge
 <code>qwen/qwen3.8-27b</code>, prompt <code>answer-v1.2</code>, judge
-prompt <code>judge-v1.1</code>. <strong>38 of 60 items scored</strong>
-(34 answerable + 4 unanswerable). The other 22 hit the Groq free-tier
-daily token cap and are reported as <em>not evaluated</em> (see
-Limitations).</p>
+prompt <code>judge-v1.1</code>. <strong>All 60 items scored</strong> (52
+answerable + 8 unanswerable). The run was resumed across two days of
+Groq free-tier quota: 38 items on the first day, the remaining 22 the
+next morning (<code>dronedocs eval --resume</code>, checkpointed per
+item, client-side pacing from the rate-limit headers).</p>
 <p><img src="docs/eval_metrics.png" alt="eval" /></p>
 <table>
 <thead>
 <tr class="header">
 <th>Metric</th>
 <th>Value</th>
-<th>CI threshold</th>
+<th>Live threshold</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Faithfulness (claims supported by cited chunks, LLM judge)</td>
-<td><strong>0.944</strong></td>
+<td><strong>0.935</strong></td>
 <td>0.80</td>
 <td>pass</td>
 </tr>
 <tr class="even">
-<td>Answer relevancy (vs. reference answer, LLM judge)</td>
-<td>0.706</td>
+<td>Answer relevancy (vs. reference answer, LLM judge; false declines
+count as 0)</td>
+<td>0.654</td>
 <td>0.75</td>
 <td><strong>fail</strong></td>
 </tr>
 <tr class="odd">
 <td>Context recall (gold evidence in the 4 prompt chunks)</td>
-<td>0.882</td>
+<td>0.885</td>
 <td>0.70</td>
 <td>pass</td>
 </tr>
 <tr class="even">
 <td>Context precision (average precision of the 4 prompt chunks)</td>
-<td>0.704</td>
+<td>0.709</td>
 <td>0.55</td>
 <td>pass</td>
 </tr>
 <tr class="odd">
 <td>Citation accuracy (answer cites a gold-evidence chunk)</td>
-<td>0.833</td>
+<td>0.854 (35/41)</td>
 <td>0.90</td>
 <td><strong>fail</strong></td>
 </tr>
@@ -286,20 +309,20 @@ Limitations).</p>
 </tr>
 <tr class="odd">
 <td>Refusal correctness (answer vs. decline, all items)</td>
-<td>0.895</td>
+<td>0.817</td>
 <td>0.80</td>
 <td>pass</td>
 </tr>
 <tr class="even">
 <td>Answer rate on answerable questions</td>
-<td>0.882 (30/34)</td>
+<td>0.788 (41/52)</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>Decline rate on unanswerable questions</td>
-<td><strong>1.000</strong> (4/4, all by the evidence gate with 0 LLM
-tokens)</td>
+<td><strong>1.000</strong> (8/8: 4 by the evidence gate with 0 LLM
+tokens, 4 by the model)</td>
 <td></td>
 <td></td>
 </tr>
@@ -311,32 +334,108 @@ tokens)</td>
 </tr>
 <tr class="odd">
 <td>MRR of the gold chunk within the 4 prompt chunks</td>
-<td>0.716</td>
+<td>0.728</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>The gate fails, and here is why.</strong> I read every miss
-in <code>reports/latest.json</code>:</p>
+<p><strong>The live gate fails, and here is why.</strong> I read every
+miss in <code>reports/latest.json</code>:</p>
 <ul>
-<li><em>Answer relevancy</em> misses are mostly correct but
-<strong>incomplete</strong> answers. 8 items scored 0.5 because the
-answer left out a qualifier from the reference (e.g. "12 km" without
-"reduced from 45 km"). Two scored 0: dr-08 was unsupported (Class 10
-qualification not in the cited chunk), and dr-20 contradicted the
-reference (armed-forces exemption).</li>
-<li><em>Citation accuracy</em> misses (5 of 30 answers): in 4 of them
-the judge found every claim supported, but the cited chunk was not the
-verified gold location. Three cited the PIB backgrounder instead of the
-gazette rule, and one cited a neighbouring gazette chunk. The fifth
-(dr-08) is the unsupported answer above.</li>
-<li>4 false declines out of 34: 1 by the evidence gate, 2 by the model's
-own sentinel, 1 rejected as uncited.</li>
+<li><em>False declines are the biggest cost</em> (11 of 52 answerable):
+6 by the model's own <code>INSUFFICIENT_EVIDENCE</code> sentinel, 4
+rejected by the citation validator as uncited, 1 by the evidence gate.
+<strong>6 of the 11 are PX4 questions</strong> (PX4 answered 7/13 vs.
+ArduPilot 9/11 and Drone Rules 20/23): the PX4 parameter pages are long
+tables, and the 4 prompt chunks often hold the parameter name without
+the sentence that answers the question. Each false decline scores 0
+answer relevancy, which is most of the gap to 0.75 (on the 41 answered
+items relevancy is 0.83: 29 scored 1.0, 10 scored 0.5, 2 scored 0).</li>
+<li><em>Citation accuracy</em> misses (6 of 41 answers): in 4 the judge
+found every claim supported but the cited chunk was not the verified
+gold location (dr-06, dr-12, dr-19, pib-02: the PIB backgrounder or a
+neighbouring gazette chunk instead of the rule text). The other 2
+(dr-08, px-04) were unsupported answers.</li>
+<li>Faithfulness below 1.0 on 4 answers: dr-08 and px-04 (0.0), dr-20
+and ap-06 (0.67).</li>
 </ul>
-<p>Token use for the 38 items: 76,867 prompt + 3,070 completion tokens
-(generator, mean 2,329 prompt tokens per call) and 31,420 judge
+<p>Token use for the 60 items: 129,021 prompt + 4,952 completion tokens
+(generator, mean 2,346 prompt tokens per call) and 42,883 judge
 tokens.</p>
+<h3 id="offline-ci-gate-reportsoffline_gatejson-no-api-key">Offline CI
+gate (<code>reports/offline_gate.json</code>, no API key)</h3>
+<p>The build cannot depend on a rate-limited free API: the first version
+of this CI ran the live eval on every push, and a run on 2026-11-06
+failed with <code>citation_accuracy 0.815 &lt; 0.90</code> only because
+Groq returned HTTP 429 (daily quota) for most items. CI now runs
+<code>dronedocs eval --offline</code>: real ingestion, hybrid retrieval,
+rerank, evidence gate and citation validation over all 60 golden items,
+with the generator replaced by the <strong>55 answers recorded from the
+live run</strong> (<code>eval/recordings/</code>, frozen by
+<code>scripts/record_answers.py</code>; the other 5 items are declined
+by the evidence gate before any LLM call). The judge metrics are not
+recomputed offline. It gates on regression floors in
+<code>eval.offline_thresholds</code>, so a change to chunking,
+retrieval, reranking, the gate or the citation validator that loses
+evidence or breaks citations fails the build deterministically.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Metric (offline replay, 60 items)</th>
+<th>Value</th>
+<th>CI floor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Context recall</td>
+<td>0.885</td>
+<td>0.85</td>
+</tr>
+<tr class="even">
+<td>Context precision</td>
+<td>0.709</td>
+<td>0.65</td>
+</tr>
+<tr class="odd">
+<td>Citation accuracy (recorded answers re-validated against today's
+context)</td>
+<td>0.854</td>
+<td>0.80</td>
+</tr>
+<tr class="even">
+<td>Citation validity</td>
+<td>1.000</td>
+<td>0.95</td>
+</tr>
+<tr class="odd">
+<td>Refusal correctness</td>
+<td>0.817</td>
+<td>0.75</td>
+</tr>
+<tr class="even">
+<td>Decline rate on unanswerable</td>
+<td>1.000</td>
+<td>0.875</td>
+</tr>
+<tr class="odd">
+<td>Fused candidate recall@20</td>
+<td>1.000</td>
+<td>0.95</td>
+</tr>
+</tbody>
+</table>
+<p>Values from <code>reports/offline_gate.json</code> (local run);
+GitHub Actions run <code>42344385911</code> reproduced the same seven
+numbers on a fresh runner, which is the point: the gate is
+deterministic. The replay matches the live run's deterministic metrics
+exactly, so the floors sit a few points under them to absorb harmless
+changes.</p>
+<p>The live eval is still one click away (<code>workflow_dispatch</code>
+with <code>live_eval</code>, or <code>make eval</code> locally) and
+keeps the 0.90 / 0.75 bar above; it is not lowered to make the build
+green.</p>
 <h3
 id="retrieval-ablation-reportsretrieval_ablationjson-all-52-answerable-items-no-llm">Retrieval
 ablation (<code>reports/retrieval_ablation.json</code>, all 52
@@ -399,10 +498,10 @@ build; <code>reports/retrieval_ablation_top5_ce20x512.json</code>)
 showed the same direction (MRR 0.760 hybrid vs 0.745 reranked) at ~9.5 s
 per query. I kept the reranker in the serving path because its score is
 the calibrated signal behind the evidence gate
-(<code>min_rerank_score</code>), which declined 4 of 4 unanswerable
-questions without an LLM call. Replacing it with a domain-tuned
-reranker, or gating on fused scores instead, is the top item in Future
-work.</p>
+(<code>min_rerank_score</code>), which declined 4 of the 8 unanswerable
+questions without an LLM call (the model's sentinel declined the other
+4). Replacing it with a domain-tuned reranker, or gating on fused scores
+instead, is the top item in Future work.</p>
 <h3 id="ragas-cross-check">Ragas cross-check</h3>
 <p><code>scripts/ragas_crosscheck.py</code> scored the first 3 answered
 items (dr-01..dr-03) with Ragas 0.4.3 (<code>qwen/qwen3.8-27b</code> as
@@ -445,30 +544,32 @@ configured separately from the generator.</p>
 <tbody>
 <tr class="odd">
 <td>retrieve (hybrid, CPU)</td>
-<td>212 ms</td>
-<td>1,670 ms</td>
+<td>258 ms</td>
+<td>1,566 ms</td>
 </tr>
 <tr class="even">
 <td>rerank (cross-encoder, CPU)</td>
-<td>1,722 ms</td>
-<td>2,578 ms</td>
+<td>1,856 ms</td>
+<td>3,680 ms</td>
 </tr>
 <tr class="odd">
-<td>generate (Groq, incl. rate-limit backoff)</td>
-<td>14,282 ms</td>
-<td>17,585 ms</td>
+<td>generate (Groq, incl. rate-limit backoff and pacing waits)</td>
+<td>13,929 ms</td>
+<td>42,463 ms</td>
 </tr>
 <tr class="even">
 <td>total</td>
-<td>15,867 ms</td>
-<td>19,100 ms</td>
+<td>14,872 ms</td>
+<td>46,266 ms</td>
 </tr>
 </tbody>
 </table>
-<p>26 of 33 generation calls hit at least one HTTP 429 (free tier: 8k
-tokens/min) and waited out the backoff. The 7 calls with no retry took
-<strong>0.45-1.63 s</strong> (p50 0.60 s), so on a paid tier the
-end-to-end p50 would be retrieval + rerank + ~0.6 s.</p>
+<p>26 of 55 generation calls hit at least one HTTP 429 (free tier: 8k
+tokens/minute), and the resumed part of the run also waited client-side
+for the token window to refill; both waits are inside the generate
+numbers. Of the 29 calls with no 429 retry, 22 took under 3 s and the
+median was <strong>1.0 s</strong>, so on a paid tier the end-to-end p50
+would be roughly retrieval + rerank + ~1 s.</p>
 <h2 id="design-decisions-and-trade-offs">Design decisions and
 trade-offs</h2>
 <ul>
@@ -484,8 +585,9 @@ I kept it (cut from 20 x 512 to 12 x 256 tokens, ~9.5 s to ~2.2 s p50 on
 I'd revisit first.</li>
 <li><strong>Two refusal layers.</strong> The evidence gate refuses
 <em>before</em> spending tokens when the best reranked chunk is weak
-(all 4 gate refusals on unanswerable questions cost 0 LLM tokens). The
-citation validator catches answers that are fluent but uncited.</li>
+(the 4 gate refusals on unanswerable questions cost 0 LLM tokens; the
+model declined the other 4). The citation validator catches answers that
+are fluent but uncited.</li>
 <li><strong>Judge from a different model family.</strong> gpt-oss
 generates and Qwen judges, so the model isn't grading its own answers,
 and each model draws on its own free-tier quota.</li>
@@ -550,11 +652,20 @@ citations point to the English page</td>
 <tr class="odd">
 <td>Groq free-tier daily token cap (200k/model/day)</td>
 <td>22 eval items returned HTTP 429 TPD</td>
-<td>Quota errors are now reported as <strong>not evaluated</strong> (not
-scored as refusals); <code>--report-only</code> rebuilds the report from
-the checkpoint; the judge's quota errors are handled the same way</td>
+<td>Quota errors are reported as <strong>not evaluated</strong> (not
+scored as refusals); <code>--resume</code> finished the other 22 items
+the next day</td>
 </tr>
 <tr class="even">
+<td>CI eval gate failed on HTTP 429s, not on quality (citation_accuracy
+0.815 &lt; 0.90, 2026-11-06)</td>
+<td>Red build that said nothing about the code</td>
+<td>Client honours <code>retry-after</code>, paces from
+<code>x-ratelimit-*</code> headers, caches responses on disk; CI gates
+on the offline replay of recorded answers; the live eval runs on
+demand</td>
+</tr>
+<tr class="odd">
 <td>ragas 0.4.3 imports a module removed in langchain-community 0.4</td>
 <td><code>ImportError</code> on import</td>
 <td>Inert stub for <code>langchain_community.chat_models.vertexai</code>
@@ -564,20 +675,20 @@ before importing ragas</td>
 </table>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>The golden-set eval is partial: 38 of 60 items.</strong>
-Groq's free tier caps each model at ~200k tokens per rolling day. The
-generator's quota ran out after 38 items, and the remaining 22
-(<code>ap-07..ap-11</code>, all 13 <code>px-*</code> PX4 items,
-<code>na-01/04/06/07</code>) are recorded as <em>not evaluated</em>, not
-as failures. So the PX4 domain is not represented in the answer-quality
-numbers. It is covered by the retrieval ablation, which runs all 52
-answerable items locally. To finish:
-<code>dronedocs eval --resume</code> once the quota resets.</li>
+<li><strong>The live run spans two days of free-tier quota.</strong> 38
+items ran on 2026-11-06 and 22 on 2026-11-07 with the same code, prompt
+and models; each item is scored independently, but latency mixes two
+load conditions.</li>
 <li><strong>Latency is dominated by the free tier.</strong> The free
-tier also allows only 8k tokens/minute, so most generation calls waited
-on HTTP 429 backoff. The p50/p95 above include that wait. Calls with no
-retry took 0.45-1.6 s.</li>
-<li><strong>The quality gate currently fails</strong> on answer
+tier allows only 8k tokens/minute, so many generation calls waited on
+HTTP 429 backoff or client-side pacing. The p50/p95 above include those
+waits.</li>
+<li><strong>The offline CI gate replays recorded answers.</strong> It
+proves retrieval, gating and citation handling still work on the
+committed corpus; it cannot detect a prompt or model change that makes
+answers worse. That needs the live eval (judge metrics), which CI runs
+only on demand because of the free-tier limits.</li>
+<li><strong>The live quality gate currently fails</strong> on answer
 relevancy and citation accuracy (see the miss analysis). The thresholds
 stay where they are on purpose: lowering them to get a green build would
 defeat the gate.</li>
@@ -590,8 +701,9 @@ wired in) would cut rerank latency.</li>
 </ul>
 <h2 id="future-work">Future work</h2>
 <ul>
-<li>Finish the remaining 22 items and grow the golden set to 150+ with
-more multi-hop questions.</li>
+<li>Fix the PX4 false declines (table-aware chunking for parameter
+pages) and grow the golden set to 150+ with more multi-hop
+questions.</li>
 <li>Query rewriting for vague questions ("what's the penalty if I break
 the rules?") and a "partial answer + what's missing" mode instead of a
 hard decline.</li>

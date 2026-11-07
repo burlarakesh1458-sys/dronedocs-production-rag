@@ -160,7 +160,19 @@ declined by the evidence gate before any LLM call). The judge metrics are not re
 regression floors in `eval.offline_thresholds`, so a change to chunking, retrieval, reranking, the gate or the
 citation validator that loses evidence or breaks citations fails the build deterministically.
 
-<!-- OFFLINE_TABLE -->
+| Metric (offline replay, 60 items) | Value | CI floor |
+|---|---|---|
+| Context recall | 0.885 | 0.85 |
+| Context precision | 0.709 | 0.65 |
+| Citation accuracy (recorded answers re-validated against today's context) | 0.854 | 0.80 |
+| Citation validity | 1.000 | 0.95 |
+| Refusal correctness | 0.817 | 0.75 |
+| Decline rate on unanswerable | 1.000 | 0.875 |
+| Fused candidate recall@20 | 1.000 | 0.95 |
+
+Values from `reports/offline_gate.json` (local run); GitHub Actions run `42344385911` reproduced the same seven
+numbers on a fresh runner, which is the point: the gate is deterministic. The replay matches the live run's
+deterministic metrics exactly, so the floors sit a few points under them to absorb harmless changes.
 
 The live eval is still one click away (`workflow_dispatch` with `live_eval`, or `make eval` locally) and keeps
 the 0.90 / 0.75 bar above; it is not lowered to make the build green.
